@@ -10,3 +10,7 @@ Template projects for base code for EGP 410 assignments.
    * steering
 
 Building instructions are left up to the student. 
+
+
+float velocityDirection = atan2(diff.getY(), diff.getX()) + (3.1415/2);
+	pOwner->getPositionComponent()->setFacing(velocityDirection);
