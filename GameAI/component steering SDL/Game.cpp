@@ -105,6 +105,7 @@ bool Game::init()
 	//setup units
 	Unit* pUnit = mpUnitManager->createPlayerUnit(*pArrowSprite);
 	pUnit->setShowTarget(true);
+	//NEEED TO CHANGE THIS TO ARRIVE AND MESS WITH THINGS IN SEEKSTEERING!
 	pUnit->setSteering(Steering::SEEK, ZERO_VECTOR2D);
 
 	//create 2 enemies
