@@ -49,8 +49,8 @@ Steering* SeekSteering::getSteering()
 	diff.normalize();
 	diff *= pOwner->getMaxAcc();
 
-	float velocityDirection = atan2(diff.getY(), diff.getX()) + (3.1415 / 2);
-	pOwner->getPositionComponent()->setFacing(velocityDirection);
+	//float velocityDirection = atan2(diff.getY(), diff.getX()) + (3.1415 / 2);
+	//pOwner->getPositionComponent()->setFacing(velocityDirection);
 
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
 	data.acc = diff;
