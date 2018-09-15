@@ -100,6 +100,9 @@
     <ClCompile Include="InputTranslator.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="EscapeEvent.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsBuffer.h">
@@ -199,6 +202,9 @@
       <Filter>Header Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="InputSystem.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="EscapeEvent.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>

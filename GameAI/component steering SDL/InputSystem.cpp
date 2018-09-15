@@ -31,10 +31,10 @@ void InputSystem::updateKeyboard()
 	{
 		if (mEvent.type == SDL_KEYDOWN)
 		{
-			//if (mEvent.key.keysym.sym == SDLK_SPACE)
-			//{
-			//	mEventSystem->fireEvent(SpaceEvent());
-			//}
+			if (mEvent.key.keysym.sym == SDLK_ESCAPE)
+			{
+				//mEventSystem->fireEvent();
+			}
 		}
 	}
 }
