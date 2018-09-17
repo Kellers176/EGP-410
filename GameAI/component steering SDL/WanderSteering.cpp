@@ -26,6 +26,10 @@ WanderSteering::WanderSteering(const UnitID & ownerID, const Vector2D & targetLo
 Steering * WanderSteering::getSteering()
 {
 	Vector2D diff;
+	float wanderOffset = 10.0;
+	float wanderRadius = 50.0;
+	float wanderRate = 20 /180 *3.1415;
+
 	float radius = 5.0;
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	//are we seeking a location or a unit?
@@ -46,18 +50,22 @@ Steering * WanderSteering::getSteering()
 	{
 		diff = pOwner->getPositionComponent()->getPosition() - mTargetLoc;
 	}
-
-	float rotation = genRandomBinomial() * MAX_ROT_VEL;
-	pOwner->getPositionComponent()->setFacing(rotation);
-
-
-	//diff.normalize();
-	//diff *= pOwner->getMaxAcc();
-
-
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
-	data.vel = MAX_SPEED * pOwner->getFacing();
-	//data.rotVel = 1.0f;
+
+	float wanderOrientation = data.maxRotAcc;
+	wanderOrientation += genRandomBinomial() * wanderRate;
+
+	float targetOrientation = wanderOrientation + pOwner->getPositionComponent()->getFacing();
+
+	Vector2D currentDirection = Vector2D(cos(pOwner->getFacing()), sin(pOwner->getFacing()));
+
+	Vector2D targetDirection = Vector2D(cos(targetOrientation), sin(targetOrientation));
+
+	mTargetLoc = pOwner->getPositionComponent()->getPosition() + currentDirection * wanderOffset;
+	mTargetLoc += targetDirection * wanderRadius;
+
+	data.acc = currentDirection * MAX_ACC;
+	
 	this->mData = data;
 	return this;
 }
