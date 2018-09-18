@@ -88,7 +88,7 @@ Steering * FaceSteering::getSteering()
 	//check if they are there
 	if (rotationSize < targetRadius)
 	{
-		//return none
+		return NULL;
 	}
 
 	if (rotationSize > slowRadius)
