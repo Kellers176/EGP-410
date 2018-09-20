@@ -221,7 +221,7 @@ void Game::handleEvent(const Event & theEvent)
 		GameMessage* pMessage = new PlayerMoveToMessage(pos);
 		MESSAGE_MANAGER->addMessage(pMessage, 0);
 	}
-	if (theEvent.getType() == ENTER_EVENT)
+	if (theEvent.getType() == ENTER_EVENT && !mShouldExit)
 	{
 		//ADD RANDOM UNIT
 		cout << "Add random unit" << endl;
