@@ -1,4 +1,4 @@
-
+#pragma once
 #include <Trackable.h>
 #include "Steering.h"
 
@@ -9,6 +9,6 @@ public:
 
 	float MapToRange(float rotation);
 
-protected:
+
 	virtual Steering* getSteering();
 };
