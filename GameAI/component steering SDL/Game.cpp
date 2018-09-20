@@ -48,6 +48,7 @@ Game::~Game()
 
 bool Game::init()
 {
+	mShouldCreateRandomUnit = false;
 	mShouldExit = false;
 	EventSystem::initInstance();
 	EventSystem::getInstance()->addListener(ESCAPE_EVENT, this);
@@ -194,7 +195,7 @@ void Game::processLoop()
 
 	mpMessageManager->processMessagesForThisframe();
 
-	Unit* pUnit = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+	Unit* pUnit = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID),false);
 	if (pUnit == NULL)
 	{
 		mpUnitManager->deleteRandomUnit();
@@ -224,6 +225,11 @@ void Game::handleEvent(const Event & theEvent)
 	if (theEvent.getType() == ENTER_EVENT && !mShouldExit)
 	{
 		//ADD RANDOM UNIT
+		/*Unit* pUnit = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID),true);
+		if (pUnit == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
+		}*/
 		cout << "Add random unit" << endl;
 	}
 	if (theEvent.getType() == D_EVENT)

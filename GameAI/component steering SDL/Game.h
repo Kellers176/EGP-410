@@ -64,6 +64,7 @@ private:
 	Timer* mpLoopTimer;
 	Timer* mpMasterTimer;
 	bool mShouldExit;
+	bool mShouldCreateRandomUnit;
 
 	//should be somewhere else
 	GraphicsBufferID mBackgroundBufferID = "woods";

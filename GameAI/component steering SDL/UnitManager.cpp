@@ -64,7 +64,7 @@ Unit* UnitManager::createPlayerUnit(const Sprite& sprite, bool shouldWrap /*= tr
 }
 
 
-Unit* UnitManager::createRandomUnit(const Sprite& sprite)
+Unit* UnitManager::createRandomUnit(const Sprite& sprite, bool shouldWander)
 {
 
 	int posX = rand() % gpGame->getGraphicsSystem()->getWidth();
@@ -77,6 +77,10 @@ Unit* UnitManager::createRandomUnit(const Sprite& sprite)
 		//pUnit->setSteering(Steering::SEEK, Vector2D(rand() % gpGame->getGraphicsSystem()->getWidth(), rand() % gpGame->getGraphicsSystem()->getHeight()));
 		//CHANGE THIS SHIT
 		pUnit->setSteering(Steering::SEEK, Vector2D(gpGame->getGraphicsSystem()->getWidth()/2, gpGame->getGraphicsSystem()->getHeight()/2));
+	}
+	if (shouldWander == true)
+	{
+		pUnit->setSteering(Steering::WANDER, Vector2D(gpGame->getGraphicsSystem()->getWidth() / 2, gpGame->getGraphicsSystem()->getHeight() / 2));
 	}
 	return pUnit;
 }

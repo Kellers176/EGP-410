@@ -27,9 +27,10 @@ WanderSteering::WanderSteering(const UnitID & ownerID, const Vector2D & targetLo
 Steering * WanderSteering::getSteering()
 {
 	Vector2D diff;
-	float wanderOffset = 0.0;
-	float wanderRadius = 200.0;
-	float wanderRate = 500 / 180 * 3.1415;
+	float wanderOffset = 1.0;
+	float wanderRadius = 100.0;
+	float wanderRate = 0.3;
+	float wanderOrientation = 0;
 
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	//are we seeking a location or a unit?
@@ -52,30 +53,33 @@ Steering * WanderSteering::getSteering()
 	}
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
 
-	float wanderOrientation = data.maxRotAcc;
-	//need to allow for negative orientation
-	wanderOrientation += genRandomBinomial() * wanderRate;
-
-	float targetOrientation = wanderOrientation + pOwner->getPositionComponent()->getFacing();
-
-	Vector2D currentDirection = Vector2D(cos(pOwner->getFacing()), sin(pOwner->getFacing())) - 90 / 180 * 3.1415;
-
-	Vector2D targetDirection = Vector2D(cos(targetOrientation), sin(targetOrientation)) - 90 / 180 * 3.1415;
-
-	mTargetLoc = pOwner->getPositionComponent()->getPosition() + currentDirection * wanderOffset;
-	mTargetLoc += targetDirection * wanderRadius;
-
-	//add faceing
-	Steering* mySteering = mFaceSteering.getSteering();
-
-	/*if (mySteering)
-	{
-		mData.rotAcc = mySteering->getData().rotAcc;
-	}
-*/
-
-	data.acc = currentDirection * pOwner->getMaxAcc();
 	
+
+
+
+	if (diff.getLength() < 60)
+	{
+		//need to allow for negative orientation
+		wanderOrientation += genRandomBinomial() * wanderRate;
+
+		float targetOrientation = wanderOrientation + pOwner->getPositionComponent()->getFacing();
+
+		Vector2D currentDirection = Vector2D(cos(pOwner->getFacing()), sin(pOwner->getFacing()))/* - 90 / 180 * 3.1415*/;
+
+		Vector2D targetDirection = Vector2D(cos(targetOrientation), sin(targetOrientation)) /*- 90 / 180 * 3.1415*/;
+
+		mTargetLoc = pOwner->getPositionComponent()->getPosition() + currentDirection * wanderOffset;
+
+		mTargetLoc += targetDirection * wanderRadius;
+
+		float velocityDirection = atan2(diff.getY(), diff.getX()) + (3.1415 / 2);
+		pOwner->getPositionComponent()->setFacing(velocityDirection);
+
+		data.acc = currentDirection * pOwner->getMaxAcc();
+	}
+
+
+	data.vel = diff;
 	this->mData = data;
 	return this;
 }
