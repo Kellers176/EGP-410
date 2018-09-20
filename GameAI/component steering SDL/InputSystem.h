@@ -3,6 +3,7 @@
 #include "Trackable.h"
 #include "SDL.h"
 #include "Event.h"
+#include "Vector2D.h"
 
 class InputSystem : public Trackable
 {
@@ -17,9 +18,13 @@ public:
 
 	void updateKeyboard();
 
+	Vector2D getMousePosition();
+	
 
 private:
 	Event mSystemEvent;
 	SDL_Event mEvent;
+	
+	int mPosX, mPosY;
 
 };

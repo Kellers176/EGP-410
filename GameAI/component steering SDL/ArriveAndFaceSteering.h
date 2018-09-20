@@ -9,4 +9,6 @@ public:
 
 protected:
 	virtual Steering* getSteering();
+	/*ArriveSteering* mArriveSteering;
+	FaceSteering* mFaceSteering;*/
 };

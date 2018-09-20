@@ -97,11 +97,17 @@
     <ClCompile Include="EventListener.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="InputTranslator.cpp">
-      <Filter>Source Files\Input</Filter>
-    </ClCompile>
     <ClCompile Include="EscapeEvent.cpp">
-      <Filter>Source Files\Input</Filter>
+      <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="MousePosition.cpp">
+      <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EnterEvent.cpp">
+      <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="DEvent.cpp">
+      <Filter>Source Files\Input\Events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,9 +201,6 @@
     <ClInclude Include="EventSystem.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="InputTranslator.h">
-      <Filter>Header Files\Input</Filter>
-    </ClInclude>
     <ClInclude Include="Listener.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
@@ -205,7 +208,16 @@
       <Filter>Header Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="EscapeEvent.h">
-      <Filter>Header Files\Input</Filter>
+      <Filter>Header Files\Input\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="MousePosition.h">
+      <Filter>Header Files\Input\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EnterEvent.h">
+      <Filter>Header Files\Input\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="DEvent.h">
+      <Filter>Header Files\Input\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +268,12 @@
     </Filter>
     <Filter Include="Source Files\Input">
       <UniqueIdentifier>{fe39267c-74f2-4dba-8643-7d8ddebca04b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input\Events">
+      <UniqueIdentifier>{7a1b9aee-114c-4915-bc71-f27087df3d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input\Events">
+      <UniqueIdentifier>{c1a7803e-b294-4b8e-ac37-2bd2897b29cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

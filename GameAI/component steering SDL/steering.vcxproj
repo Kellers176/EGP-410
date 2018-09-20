@@ -17,6 +17,8 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="DEvent.h" />
+    <ClInclude Include="EnterEvent.h" />
     <ClInclude Include="EscapeEvent.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventListener.h" />
@@ -30,8 +32,8 @@
     <ClInclude Include="GraphicsBufferManager.h" />
     <ClInclude Include="GraphicsSystem.h" />
     <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="InputTranslator.h" />
     <ClInclude Include="Listener.h" />
+    <ClInclude Include="MousePosition.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PlayerMoveToMessage.h" />
     <ClInclude Include="PositionComponent.h" />
@@ -52,6 +54,8 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentManager.cpp" />
+    <ClCompile Include="DEvent.cpp" />
+    <ClCompile Include="EnterEvent.cpp" />
     <ClCompile Include="EscapeEvent.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventListener.cpp" />
@@ -65,9 +69,9 @@
     <ClCompile Include="GraphicsBufferManager.cpp" />
     <ClCompile Include="GraphicsSystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="InputTranslator.cpp" />
     <ClCompile Include="Listener.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MousePosition.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PlayerMoveToMessage.cpp" />
     <ClCompile Include="PositionComponent.cpp" />
