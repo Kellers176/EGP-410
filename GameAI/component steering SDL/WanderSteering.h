@@ -12,5 +12,9 @@ protected:
 	virtual Steering* getSteering();
 
 	FaceSteering mFaceSteering;
+
+	float mWanderRate;
+	float mTargetOrientation;
+	float mWanderOrientation;
 	
 };

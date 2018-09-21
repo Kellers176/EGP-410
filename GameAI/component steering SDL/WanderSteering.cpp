@@ -27,59 +27,38 @@ WanderSteering::WanderSteering(const UnitID & ownerID, const Vector2D & targetLo
 Steering * WanderSteering::getSteering()
 {
 	Vector2D diff;
-	float wanderOffset = 1.0;
-	float wanderRadius = 100.0;
-	float wanderRate = 0.3;
-	float wanderOrientation = 0;
-
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
-	//are we seeking a location or a unit?
+	PhysicsData owner = pOwner->getPhysicsComponent()->getData();
+	float wanderOffset = 100.0;
+	float wanderRadius = 80.0;
+	mWanderRate = 2.0 * 3.1415;
+	mWanderOrientation = 0;
 
-	if (mTargetID != INVALID_UNIT_ID)
-	{
-		//seeking unit
-		Unit* pTarget = gpGame->getUnitManager()->getUnit(mTargetID);
-		assert(pTarget != NULL);
-		mTargetLoc = pTarget->getPositionComponent()->getPosition();
-	}
-
-	if (mType == Steering::WANDER)
-	{
-		diff = mTargetLoc - pOwner->getPositionComponent()->getPosition();
-	}
-	else
-	{
-		diff = pOwner->getPositionComponent()->getPosition() - mTargetLoc;
-	}
-	PhysicsData data = pOwner->getPhysicsComponent()->getData();
-
-	
-
-
-
-	if (diff.getLength() < 60)
-	{
 		//need to allow for negative orientation
-		wanderOrientation += genRandomBinomial() * wanderRate;
+		mWanderOrientation += genRandomBinomial() * mWanderRate;
 
-		float targetOrientation = wanderOrientation + pOwner->getPositionComponent()->getFacing();
+		mTargetOrientation = mWanderOrientation + pOwner->getFacing();
 
-		Vector2D currentDirection = Vector2D(cos(pOwner->getFacing()), sin(pOwner->getFacing()))/* - 90 / 180 * 3.1415*/;
+		//character orientation
+		Vector2D currentDirection = Vector2D(cos(pOwner->getFacing()), sin(pOwner->getFacing()));
+		currentDirection.normalize();
 
-		Vector2D targetDirection = Vector2D(cos(targetOrientation), sin(targetOrientation)) /*- 90 / 180 * 3.1415*/;
+		//target orientation
+		Vector2D targetDirection = Vector2D(cos(mTargetOrientation), sin(mTargetOrientation));
 
 		mTargetLoc = pOwner->getPositionComponent()->getPosition() + currentDirection * wanderOffset;
-
 		mTargetLoc += targetDirection * wanderRadius;
+		mFaceSteering.setTargetLoc(mTargetLoc);
 
-		float velocityDirection = atan2(diff.getY(), diff.getX()) + (3.1415 / 2);
-		pOwner->getPositionComponent()->setFacing(velocityDirection);
+		PhysicsData data = pOwner->getPhysicsComponent()->getData();
+		Steering* mSteer = mFaceSteering.getSteering();
 
-		data.acc = currentDirection * pOwner->getMaxAcc();
-	}
+		if (mSteer != NULL)
+		{
+			data.rotAcc = mSteer->getData().rotAcc;
+		}
+		data.acc = currentDirection * MAX_ACC;
 
-
-	data.vel = diff;
-	this->mData = data;
-	return this;
+		this->mData = data;
+		return this;
 }

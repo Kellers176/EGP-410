@@ -35,7 +35,8 @@ public:
 	const UnitID& getTargetID() const { return mTargetID; };
 	void setOwnerID(const UnitID& id) { mOwnerID = id; };
 	//void setData(const PhysicsData& data) { mData = data; };
-	const PhysicsData& getData() const { return mData; };
+	PhysicsData& getData() { return mData; };
+
 	void update();
 protected:
 	SteeringType mType;

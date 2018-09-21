@@ -27,16 +27,18 @@ FaceSteering::FaceSteering(const UnitID & ownerID, const Vector2D & targetLoc, c
 
 float FaceSteering::MapToRange(float rotation)
 {
-	const float pie = 3.1415;
-	if (rotation > pie)
+	float convertRot;
+
+	convertRot = fmod((rotation), 2.0 * 3.1415);
+	if (convertRot > 3.1415)
 	{
-		rotation -= (2 * pie);
+		convertRot = (convertRot - 3.1415) * -1.0;
 	}
-	else if (rotation < -pie)
+	else if (convertRot < -3.1415)
 	{
-		rotation += (2 * pie);
+		convertRot = (convertRot * 3.1415) * -1.0;
 	}
-	return rotation;
+	return convertRot;
 }
 
 Steering * FaceSteering::getSteering()
@@ -45,37 +47,25 @@ Steering * FaceSteering::getSteering()
 
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 
-	float targetRadius = 0.1 / 180.0 * 3.1415;
-	float slowRadius = 200.0 / 180.0 * 3.1415;
-	float myAngle;
+	float targetRadius = 10.0 / 180.0 * 3.1415;
+	float slowRadius = 250.0 / 180.0 * 3.1415;
+	float myAngle ;
 	float rotationSize;
 	float targetRotation;
 	float timeToTarget = 0.1;
 
 
-	//are we seeking a location or a unit?
-
-
-	if (mTargetID != INVALID_UNIT_ID)
-	{
-		//seeking unit
-		Unit* pTarget = gpGame->getUnitManager()->getUnit(mTargetID);
-		assert(pTarget != NULL);
-		mTargetLoc = pTarget->getPositionComponent()->getPosition();
-
-	}
 
 	if (mType == Steering::FACE)
 	{
 		direction = mTargetLoc - pOwner->getPositionComponent()->getPosition();
-		//need to do rotation hereeeeeeees (set it equal to something)
 	}
 	else
 	{
 		direction = pOwner->getPositionComponent()->getPosition() - mTargetLoc;
 	}
 
-	myAngle = atan2(direction.getY(), direction.getX()) - pOwner->getFacing() + (90.0 / 180.0 * 3.1415);
+	myAngle = atan2(direction.getY(), direction.getX()) - pOwner->getFacing();
 
 	MapToRange(myAngle);
 
@@ -113,7 +103,6 @@ Steering * FaceSteering::getSteering()
 		data.rotAcc /= angularAcceleration;
 		data.rotAcc *= pOwner->getMaxRotAcc();
 	}
-	
 	//steering.linear
 	this->mData = data;
 	return this;

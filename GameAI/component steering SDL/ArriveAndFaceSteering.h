@@ -1,7 +1,8 @@
 #pragma once
 #include <Trackable.h>
 #include "Steering.h"
-
+#include "ArriveSteering.h"
+#include "FaceSteering.h"
 class ArriveAndFaceSteering : public Steering
 {
 public:
@@ -9,6 +10,6 @@ public:
 	float MapToRange(float rotation);
 protected:
 	virtual Steering* getSteering();
-	/*ArriveSteering* mArriveSteering;
-	FaceSteering* mFaceSteering;*/
+	ArriveSteering mArriveSteering;
+	FaceSteering mFaceSteering;
 };

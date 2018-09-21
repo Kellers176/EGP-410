@@ -29,9 +29,9 @@ Steering * ArriveSteering::getSteering()
 	Vector2D targetVelocity;
 	float distance;
 	float targetSpeed;
-	float targetRadius = 5.0;
-	float slowRadius = 3.0;
-	float timeToTarget = 2.0;
+	float targetRadius = 0.2;
+	float slowRadius = 200.0;
+	float timeToTarget = 0.1;
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	//are we seeking a location or a unit?
 
@@ -57,6 +57,7 @@ Steering * ArriveSteering::getSteering()
 	if (distance < targetRadius)
 	{
 		//do nothing
+		return NULL;
 	}
 
 	//if the outside the slow radius, go the max speed
@@ -77,7 +78,7 @@ Steering * ArriveSteering::getSteering()
 	targetVelocity.normalize();
 	targetVelocity *= targetSpeed;
 
-	data.acc = targetVelocity - pOwner->getPhysicsComponent()->getAcceleration();
+	data.acc = targetVelocity - data.vel;
 	data.acc /= timeToTarget;
 
 	if (targetVelocity.getLength() > MAX_ACC)
@@ -85,13 +86,8 @@ Steering * ArriveSteering::getSteering()
 		data.acc.normalize();
 		data.acc *= MAX_ACC;
 	}
-
-	
 	//float velocityDirection = atan2(diff.getY(), diff.getX()) + (3.1415 / 2);
 	//pOwner->getPositionComponent()->setFacing(velocityDirection);
-
-	data.vel = direction;
-	data.rotVel = 0.0f;
 	this->mData = data;
 	return this;
 }

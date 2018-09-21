@@ -39,7 +39,7 @@ void InputSystem::updateKeyboard()
 			{
 				mEventSystem->fireEvent(EscapeEvent(true));
 			}
-			if (SDLK_KP_ENTER)
+			if (mEvent.key.keysym.sym == SDLK_RETURN)
 			{
 				mEventSystem->fireEvent(EnterEvent());
 			}
