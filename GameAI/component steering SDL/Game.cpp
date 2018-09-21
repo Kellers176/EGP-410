@@ -235,6 +235,7 @@ void Game::handleEvent(const Event & theEvent)
 	if (theEvent.getType() == D_EVENT)
 	{
 		//DELETE RANDOM UNIT
+		mpUnitManager->deleteRandomUnit();
 		cout << "delete random unit" << endl;
 	}
 }

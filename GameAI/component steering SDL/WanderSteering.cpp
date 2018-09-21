@@ -24,6 +24,14 @@ WanderSteering::WanderSteering(const UnitID & ownerID, const Vector2D & targetLo
 	setTargetLoc(targetLoc);
 }
 
+Vector2D WanderSteering::to2DVector(float convert)
+{
+	Vector2D value;
+	value.setX(cos(convert));
+	value.setY(sin(convert));
+	return value;
+}
+
 Steering * WanderSteering::getSteering()
 {
 	Vector2D diff;
@@ -40,11 +48,11 @@ Steering * WanderSteering::getSteering()
 		mTargetOrientation = mWanderOrientation + pOwner->getFacing();
 
 		//character orientation
-		Vector2D currentDirection = Vector2D(cos(pOwner->getFacing()), sin(pOwner->getFacing()));
+		Vector2D currentDirection = to2DVector(pOwner->getFacing());
 		currentDirection.normalize();
 
 		//target orientation
-		Vector2D targetDirection = Vector2D(cos(mTargetOrientation), sin(mTargetOrientation));
+		Vector2D targetDirection = to2DVector(mTargetOrientation);
 
 		mTargetLoc = pOwner->getPositionComponent()->getPosition() + currentDirection * wanderOffset;
 		mTargetLoc += targetDirection * wanderRadius;
