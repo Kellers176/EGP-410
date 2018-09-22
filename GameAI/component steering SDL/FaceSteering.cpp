@@ -44,17 +44,11 @@ float FaceSteering::MapToRange(float rotation)
 Steering * FaceSteering::getSteering()
 {
 	Vector2D direction;
-
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 
-	float targetRadius = 10.0 / 180.0 * 3.1415;
-	float slowRadius = 250.0 / 180.0 * 3.1415;
 	float myAngle ;
 	float rotationSize;
 	float targetRotation;
-	float timeToTarget = 0.1;
-
-
 
 	if (mType == Steering::FACE)
 	{
@@ -76,25 +70,28 @@ Steering * FaceSteering::getSteering()
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
 
 	//check if they are there
-	if (rotationSize < targetRadius)
+	if (rotationSize < mTargetRadius)
 	{
-		return NULL;
+		data.rotAcc = 0;
+		data.rotVel = 0;
+		this->mData = data;
+		return this;
 	}
 
-	if (rotationSize > slowRadius)
+	if (rotationSize > mSlowRadius)
 	{
 		targetRotation = pOwner->getMaxRotVel();
 	}
 	else
 	{
-		targetRotation = pOwner->getMaxRotVel() * rotationSize / slowRadius;
+		targetRotation = pOwner->getMaxRotVel() * rotationSize / mSlowRadius;
 	}
 
 	targetRotation *= myAngle / rotationSize;
 
 	//steering.angular
 	data.rotAcc = targetRotation - data.rotVel; //<- character.rotation
-	data.rotAcc /= timeToTarget;
+	data.rotAcc /= mTimeToTarget;
 
 	float angularAcceleration = abs(data.rotAcc);
 
@@ -104,6 +101,7 @@ Steering * FaceSteering::getSteering()
 		data.rotAcc *= pOwner->getMaxRotAcc();
 	}
 	//steering.linear
+	data.vel = 0;
 	this->mData = data;
 	return this;
 }

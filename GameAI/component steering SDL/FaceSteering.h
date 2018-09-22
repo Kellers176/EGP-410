@@ -11,4 +11,9 @@ public:
 
 
 	virtual Steering* getSteering();
+
+private:
+	const float mTargetRadius = 10.0 / 180.0 * 3.1415;
+	const float mSlowRadius = 250.0 / 180.0 * 3.1415;
+	const float mTimeToTarget = 0.1;
 };

@@ -41,8 +41,8 @@ Steering * WanderAndChaseSteering::getSteering()
 		mSeek.setTargetLoc(myPlayerLocation);
 		mySteer = mSeek.getSteering();
 
-		//mFace.setTargetLoc(myPlayerLocation);
-		//data.rotAcc = mFace.getSteering()->getData().rotAcc;
+		mFace.setTargetLoc(myPlayerLocation);
+		data.rotAcc = mFace.getSteering()->getData().rotAcc;
 	}
 
 	data.acc = mySteer->getData().acc;
