@@ -29,7 +29,9 @@ Steering * WanderAndChaseSteering::getSteering()
 
 	Vector2D myPlayerLocation = gpGame->getUnitManager()->getPlayerUnit()->getPositionComponent()->getPosition();
 	Vector2D diff = myPlayerLocation - pOwner->getPositionComponent()->getPosition();
-	Steering* mySteer = nullptr;
+
+
+	Steering* mySteer = NULL;
 
 	if (diff.getLengthSquared() > mWanderRadius * mWanderRadius)
 	{
@@ -40,7 +42,6 @@ Steering * WanderAndChaseSteering::getSteering()
 	{
 		mSeek.setTargetLoc(myPlayerLocation);
 		mySteer = mSeek.getSteering();
-
 		mFace.setTargetLoc(myPlayerLocation);
 		data.rotAcc = mFace.getSteering()->getData().rotAcc;
 	}
