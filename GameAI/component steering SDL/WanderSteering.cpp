@@ -26,10 +26,10 @@ WanderSteering::WanderSteering(const UnitID & ownerID, const Vector2D & targetLo
 
 Vector2D WanderSteering::to2DVector(float convert)
 {
-	Vector2D value;
-	value.setX(cos(convert));
-	value.setY(sin(convert));
-	return value;
+	Vector2D temp;
+	temp.setX(cos(convert));
+	temp.setY(sin(convert));
+	return temp;
 }
 
 Steering * WanderSteering::getSteering()
@@ -37,7 +37,7 @@ Steering * WanderSteering::getSteering()
 	Vector2D diff;
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData owner = pOwner->getPhysicsComponent()->getData();
-	float wanderOffset = 100.0;
+	float wanderOffset = 10.0;
 	float wanderRadius = 80.0;
 	mWanderRate = 2.0 * 3.1415;
 	mWanderOrientation = 0;
@@ -45,11 +45,13 @@ Steering * WanderSteering::getSteering()
 		//need to allow for negative orientation
 		mWanderOrientation += genRandomBinomial() * mWanderRate;
 
-		mTargetOrientation = mWanderOrientation + pOwner->getFacing();
+		mTargetOrientation = mWanderOrientation + (pOwner->getFacing() - 3.1415 / 2);
 
 		//character orientation
-		Vector2D currentDirection = to2DVector(pOwner->getFacing());
-		currentDirection.normalize();
+		Vector2D currentDirection = to2DVector(pOwner->getFacing() - (3.12149 / 2)) * wanderOffset;
+		//currentDirection.normalize();
+
+		Vector2D mytarget;
 
 		//target orientation
 		Vector2D targetDirection = to2DVector(mTargetOrientation);
@@ -64,8 +66,9 @@ Steering * WanderSteering::getSteering()
 		if (mSteer != NULL)
 		{
 			data.rotAcc = mSteer->getData().rotAcc;
+			data.rotVel = mSteer->getData().rotVel;
 		}
-		data.acc = currentDirection * MAX_ACC;
+		data.acc = currentDirection * pOwner->getMaxAcc();
 
 		this->mData = data;
 		return this;
