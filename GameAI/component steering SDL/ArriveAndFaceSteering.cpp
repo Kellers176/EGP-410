@@ -4,6 +4,12 @@
 #include "UnitManager.h"
 #include "Unit.h"
 #include <cassert>
+/*Author: Kelly Herstine
+Class: EGP-410
+<Section 01>
+Assignment: Assignment1
+Certification of Authenticity:
+I certify that this assignment is entirely my own work.*/
 ArriveAndFaceSteering::ArriveAndFaceSteering(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee)
 	: Steering()
 	, mArriveSteering(ArriveSteering(ownerID, targetLoc, targetID, shouldFlee)),
@@ -20,19 +26,6 @@ ArriveAndFaceSteering::ArriveAndFaceSteering(const UnitID & ownerID, const Vecto
 	setOwnerID(ownerID);
 	setTargetID(targetID);
 	setTargetLoc(targetLoc);
-}
-float ArriveAndFaceSteering::MapToRange(float rotation)
-{
-	const float pie = 3.1415;
-	if (rotation > pie)
-	{
-		rotation -= (2 * pie);
-	}
-	else if (rotation < -pie)
-	{
-		rotation += (2 * pie);
-	}
-	return rotation;
 }
 Steering * ArriveAndFaceSteering::getSteering()
 {

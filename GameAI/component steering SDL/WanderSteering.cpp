@@ -1,11 +1,16 @@
 #include <cassert>
-
 #include "WanderSteering.h"
 #include "Steering.h"
 #include "Game.h"
 #include "UnitManager.h"
 #include "Unit.h"
 #include <math.h>
+/*Author: Kelly Herstine
+Class: EGP-410
+<Section 01>
+Assignment: Assignment1
+Certification of Authenticity:
+I certify that this assignment is entirely my own work.*/
 
 WanderSteering::WanderSteering(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee)
 	: Steering()
@@ -49,7 +54,6 @@ Steering * WanderSteering::getSteering()
 
 		//character orientation
 		Vector2D currentDirection = to2DVector(pOwner->getFacing() - (3.12149 / 2)) * wanderOffset;
-		//currentDirection.normalize();
 
 		Vector2D mytarget;
 
@@ -58,9 +62,9 @@ Steering * WanderSteering::getSteering()
 
 		mTargetLoc = pOwner->getPositionComponent()->getPosition() + currentDirection * wanderOffset;
 		mTargetLoc += targetDirection * wanderRadius;
+		PhysicsData data = pOwner->getPhysicsComponent()->getData();
 		mFaceSteering.setTargetLoc(mTargetLoc);
 
-		PhysicsData data = pOwner->getPhysicsComponent()->getData();
 		Steering* mSteer = mFaceSteering.getSteering();
 
 		if (mSteer != NULL)
