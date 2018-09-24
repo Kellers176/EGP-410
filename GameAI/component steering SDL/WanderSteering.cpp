@@ -53,7 +53,7 @@ Steering * WanderSteering::getSteering()
 		mTargetOrientation = mWanderOrientation + (pOwner->getFacing() - 3.1415 / 2);
 
 		//character orientation
-		Vector2D currentDirection = to2DVector(pOwner->getFacing() - (3.12149 / 2)) * wanderOffset;
+		Vector2D currentDirection = to2DVector(pOwner->getFacing() - (3.14159 / 2)) * wanderOffset;
 
 		Vector2D mytarget;
 

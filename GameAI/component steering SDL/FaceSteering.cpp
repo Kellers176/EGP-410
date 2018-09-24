@@ -37,11 +37,11 @@ float FaceSteering::MapToRange(float rotation)
 	convertRot = fmod((rotation), 2.0 * 3.1415);
 	if (convertRot > 3.1415)
 	{
-		convertRot = (convertRot - 3.1415) * -1.0;
+		convertRot -= 2.0 * 3.1415;
 	}
 	else if (convertRot < -3.1415)
 	{
-		convertRot = (convertRot * 3.1415) * -1.0;
+		convertRot += 2.0 * 3.1415;
 	}
 	return convertRot;
 }
