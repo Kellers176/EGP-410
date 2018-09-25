@@ -23,6 +23,6 @@ protected:
 
 	float mWanderRate;
 	float mTargetOrientation;
-	float mWanderOrientation;
+	float mWanderOrientation = 0;
 	
 };

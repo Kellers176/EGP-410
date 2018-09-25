@@ -34,14 +34,17 @@ float FaceSteering::MapToRange(float rotation)
 {
 	float convertRot;
 
-	convertRot = fmod((rotation), 2.0 * 3.1415);
-	if (convertRot > 3.1415)
+	convertRot = fmod((rotation), 2.0 * PIE);
+	if (convertRot > PIE)
 	{
-		convertRot -= 2.0 * 3.1415;
+		convertRot - PIE;
+		convertRot *= -1.0;
+
 	}
-	else if (convertRot < -3.1415)
+	else if (convertRot < -PIE)
 	{
-		convertRot += 2.0 * 3.1415;
+		convertRot + PIE;
+		convertRot *= -1.0;
 	}
 	return convertRot;
 }
@@ -50,10 +53,6 @@ Steering * FaceSteering::getSteering()
 {
 	Vector2D direction;
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
-
-	float myAngle ;
-	float rotationSize;
-	float targetRotation;
 
 	if (mType == Steering::FACE)
 	{
@@ -64,9 +63,9 @@ Steering * FaceSteering::getSteering()
 		direction = pOwner->getPositionComponent()->getPosition() - mTargetLoc;
 	}
 
-	myAngle = atan2(direction.getY(), direction.getX()) - pOwner->getFacing();
-
-	MapToRange(myAngle);
+	myAngle = (atan2(direction.getY(), direction.getX()) + (PIE /2)) - pOwner->getFacing();
+	//myAngle = fmod(myAngle, 3.14159f * 2);
+	myAngle =  MapToRange(myAngle);
 
 	rotationSize = abs(myAngle);
 
@@ -85,11 +84,11 @@ Steering * FaceSteering::getSteering()
 
 	if (rotationSize > mSlowRadius)
 	{
-		targetRotation = pOwner->getMaxRotVel();
+		targetRotation = data.maxRotAcc;
 	}
 	else
 	{
-		targetRotation = pOwner->getMaxRotVel() * rotationSize / mSlowRadius;
+		targetRotation = data.maxRotAcc * rotationSize / mSlowRadius;
 	}
 
 	targetRotation *= myAngle / rotationSize;
@@ -100,13 +99,13 @@ Steering * FaceSteering::getSteering()
 
 	float angularAcceleration = abs(data.rotAcc);
 
-	if (angularAcceleration > pOwner->getMaxRotAcc())
+	if (angularAcceleration > data.maxRotAcc)
 	{
 		data.rotAcc /= angularAcceleration;
-		data.rotAcc *= pOwner->getMaxRotAcc();
+		data.rotAcc *= data.maxRotAcc;
 	}
 	//steering.linear
-	data.vel = 0;
+	data.acc = 0;
 	this->mData = data;
 	return this;
 }
