@@ -3,6 +3,7 @@
 #include "EscapeEvent.h"
 #include "MousePosition.h"
 #include "DEvent.h"
+#include "AEvent.h"
 #include "EnterEvent.h"
 /*Author: Kelly Herstine
 Class: EGP-410
@@ -51,6 +52,10 @@ void InputSystem::updateKeyboard()
 			if (mEvent.key.keysym.sym == SDLK_d)
 			{
 				mEventSystem->fireEvent(DEvent());
+			}
+			if (mEvent.key.keysym.sym == SDLK_a)
+			{
+				mEventSystem->fireEvent(AEvent());
 			}
 		}
 		if (SDL_GetMouseState(&mPosX, &mPosY) & SDL_BUTTON(SDL_BUTTON_LEFT))

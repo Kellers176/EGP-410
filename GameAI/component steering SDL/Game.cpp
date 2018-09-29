@@ -19,6 +19,7 @@
 #include "EventSystem.h"
 #include "Event.h"
 #include "MousePosition.h"
+#include "AEvent.h"
 
 Game* gpGame = NULL;
 
@@ -55,6 +56,7 @@ bool Game::init()
 	EventSystem::getInstance()->addListener(MOUSE_POSITION_EVENT, this);
 	EventSystem::getInstance()->addListener(D_EVENT, this);
 	EventSystem::getInstance()->addListener(ENTER_EVENT, this);
+	EventSystem::getInstance()->addListener(A_EVENT, this);
 	mSystem.init();
 
 
@@ -216,12 +218,14 @@ void Game::handleEvent(const Event & theEvent)
 	{
 		mShouldExit = true;
 	}
+
 	if (theEvent.getType() == MOUSE_POSITION_EVENT)
 	{
 		Vector2D pos(mSystem.getMousePosition().getX(), mSystem.getMousePosition().getY());
 		GameMessage* pMessage = new PlayerMoveToMessage(pos);
 		MESSAGE_MANAGER->addMessage(pMessage, 0);
 	}
+
 	if (theEvent.getType() == ENTER_EVENT && !mShouldExit)
 	{
 		//ADD RANDOM UNIT
@@ -232,11 +236,26 @@ void Game::handleEvent(const Event & theEvent)
 		}
 		cout << "Add random unit" << endl;
 	}
+
 	if (theEvent.getType() == D_EVENT)
 	{
 		//DELETE RANDOM UNIT
 		mpUnitManager->deleteRandomUnit();
 		cout << "delete random unit" << endl;
+	}
+
+	if (theEvent.getType() == A_EVENT)
+	{
+		//ADD 10 RANDOM UNIT
+		for (int i = 0; i < 10; i++)
+		{
+			Unit* pUnit = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+			if (pUnit == NULL)
+			{
+				mpUnitManager->deleteRandomUnit();
+			}
+		}
+		
 	}
 }
 

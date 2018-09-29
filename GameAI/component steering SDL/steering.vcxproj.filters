@@ -121,6 +121,9 @@
     <ClCompile Include="Seperation.cpp">
       <Filter>Source Files\Steering</Filter>
     </ClCompile>
+    <ClCompile Include="AEvent.cpp">
+      <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsBuffer.h">
@@ -242,6 +245,9 @@
     </ClInclude>
     <ClInclude Include="Flocking.h">
       <Filter>Header Files\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="AEvent.h">
+      <Filter>Header Files\Input\Events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

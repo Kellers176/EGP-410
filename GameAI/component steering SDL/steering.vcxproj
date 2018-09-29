@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AEvent.h" />
     <ClInclude Include="ArriveAndFaceSteering.h" />
     <ClInclude Include="ArriveSteering.h" />
     <ClInclude Include="Cohesion.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="WanderSteering.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AEvent.cpp" />
     <ClCompile Include="ArriveAndFaceSteering.cpp" />
     <ClCompile Include="ArriveSteering.cpp" />
     <ClCompile Include="Cohesion.cpp" />
