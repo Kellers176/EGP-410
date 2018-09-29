@@ -26,6 +26,7 @@ public:
 	Unit* createPlayerUnit(const Sprite& sprite, bool shouldWrap = true, const PositionData& posData = ZERO_POSITION_DATA, const PhysicsData& physicsData = ZERO_PHYSICS_DATA);
 	Unit* createRandomUnit(const Sprite& sprite);
 
+	int getUnitCount() const { return mUnitMap.size(); }
 	Unit* getUnit(const UnitID& id) const;
 	void deleteUnit(const UnitID& id);
 	void deleteRandomUnit();

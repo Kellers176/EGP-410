@@ -7,9 +7,13 @@ Certification of Authenticity:
 I certify that this assignment is entirely my own work.*/
 #include <Trackable.h>
 #include "Steering.h"
+
 class Seperation : public Steering
 {
 public:
-	Seperation();
+	Seperation(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee);
 	virtual Steering* getSteering();
+
+private:
+	const float mRadius = 200.0f;
 };

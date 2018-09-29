@@ -10,6 +10,9 @@ I certify that this assignment is entirely my own work.*/
 class GroupAlignment : public Steering
 {
 public:
-	GroupAlignment();
+	GroupAlignment(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee);
 	virtual Steering* getSteering();
+
+private:
+	const float mRadius = 500.0f;
 };

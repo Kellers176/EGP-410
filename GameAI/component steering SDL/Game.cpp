@@ -21,6 +21,10 @@
 #include "MousePosition.h"
 #include "AEvent.h"
 
+#include <sstream>
+#include <fstream>
+#include <string>
+
 Game* gpGame = NULL;
 
 const int WIDTH = 1024;
@@ -130,6 +134,29 @@ bool Game::init()
 	//pUnit = mpUnitManager->createUnit(*pEnemyArrow, true, PositionData(Vector2D(0.0f, (float)gpGame->getGraphicsSystem()->getHeight()-1), 0.0f));
 	//pUnit->setShowTarget(false);
 	//pUnit->setSteering(Steering::FLEE, ZERO_VECTOR2D, PLAYER_UNIT_ID);
+
+	string number;
+	string toOpen = "Data.txt";
+	
+	mFin.open(toOpen);
+	if (mFin.good())
+	{
+		getline(mFin, number);
+		mAlignmentWeight = atoi(number.c_str());
+
+		getline(mFin, number);
+		mCohesionWeight = atoi(number.c_str());
+
+		getline(mFin, number);
+		mSeparationWeight = atoi(number.c_str());
+
+		mFin.close();
+	}
+	else
+	{
+		cout << "Cant Open File" << endl;
+	}
+
 
 
 	return true;

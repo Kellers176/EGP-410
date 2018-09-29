@@ -7,10 +7,23 @@ Certification of Authenticity:
 I certify that this assignment is entirely my own work.*/
 #include <Trackable.h>
 #include "Steering.h"
+#include "GroupAlignment.h"
+#include "Seperation.h"
+#include "Cohesion.h"
 
 class Flocking : public Steering
 {
 public:
-	Flocking();
+	Flocking(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee);
 	virtual Steering* getSteering();
+	void updateBoidWeight();
+
+private:
+	GroupAlignment mAlignment;
+	Cohesion mCohesion;
+	Seperation mSeperation;
+
+	int mGroupAlignmentWeight;
+	int mCohesionWeight;
+	int mSeperationWeight;
 };
