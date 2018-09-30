@@ -52,12 +52,13 @@ public:
 	inline double getCurrentTime() const { return mpMasterTimer->getElapsedTime(); };
 
 	inline int getAlignmentWeight() { return mAlignmentWeight; };
+	inline int getWanderWeight() { return mWanderWeight; };
 	inline int getCohesionWeight() { return mCohesionWeight; };
 	inline int getSeperationWeight() { return mSeparationWeight; };
 	inline void setAlignmentWeight(int weight) { mAlignmentWeight = weight; };
 	inline void setCohesionWeight(int weight) { mCohesionWeight = weight; };
 	inline void setSeperationWeight(int weight) { mSeparationWeight = weight; };
-	//inline void setWanderWeight(int weight) { mWanderWeight = weight; };
+	inline void setWanderWeight(int weight) { mWanderWeight = weight; };
 
 	void handleEvent(const Event &theEvent);
 
@@ -76,11 +77,12 @@ private:
 	bool mShouldCreateRandomUnit;
 
 	ifstream mFin;
+	ofstream mFout;
 
 	int mAlignmentWeight;
 	int mCohesionWeight;
 	int mSeparationWeight;
-	//int mWanderWeight;
+	int mWanderWeight;
 
 	//should be somewhere else
 	GraphicsBufferID mBackgroundBufferID = "woods";

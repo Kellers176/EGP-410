@@ -20,6 +20,7 @@
 #include "Event.h"
 #include "MousePosition.h"
 #include "AEvent.h"
+#include "Save.h"
 
 #include <sstream>
 #include <fstream>
@@ -53,6 +54,32 @@ Game::~Game()
 
 bool Game::init()
 {
+	string number;
+	string toOpen = "Data.txt";
+
+	mFin.open(toOpen);
+	if (mFin.good())
+	{
+		getline(mFin, number);
+		mAlignmentWeight = atoi(number.c_str());
+
+		getline(mFin, number);
+		mCohesionWeight = atoi(number.c_str());
+
+		getline(mFin, number);
+		mSeparationWeight = atoi(number.c_str());
+
+		getline(mFin, number);
+		mWanderWeight = atoi(number.c_str());
+
+		mFin.close();
+	}
+	else
+	{
+		cout << "Cant Open File" << endl;
+	}
+	mFin.close();
+
 	mShouldCreateRandomUnit = false;
 	mShouldExit = false;
 	EventSystem::initInstance();
@@ -61,6 +88,7 @@ bool Game::init()
 	EventSystem::getInstance()->addListener(D_EVENT, this);
 	EventSystem::getInstance()->addListener(ENTER_EVENT, this);
 	EventSystem::getInstance()->addListener(A_EVENT, this);
+	EventSystem::getInstance()->addListener(SAVE, this);
 	mSystem.init();
 
 
@@ -134,29 +162,7 @@ bool Game::init()
 	//pUnit = mpUnitManager->createUnit(*pEnemyArrow, true, PositionData(Vector2D(0.0f, (float)gpGame->getGraphicsSystem()->getHeight()-1), 0.0f));
 	//pUnit->setShowTarget(false);
 	//pUnit->setSteering(Steering::FLEE, ZERO_VECTOR2D, PLAYER_UNIT_ID);
-
-	string number;
-	string toOpen = "Data.txt";
 	
-	mFin.open(toOpen);
-	if (mFin.good())
-	{
-		getline(mFin, number);
-		mAlignmentWeight = atoi(number.c_str());
-
-		getline(mFin, number);
-		mCohesionWeight = atoi(number.c_str());
-
-		getline(mFin, number);
-		mSeparationWeight = atoi(number.c_str());
-
-		mFin.close();
-	}
-	else
-	{
-		cout << "Cant Open File" << endl;
-	}
-
 
 
 	return true;
@@ -267,6 +273,7 @@ void Game::handleEvent(const Event & theEvent)
 	if (theEvent.getType() == D_EVENT)
 	{
 		//DELETE RANDOM UNIT
+		//not working for flocking for some fucking reason
 		mpUnitManager->deleteRandomUnit();
 		cout << "delete random unit" << endl;
 	}
@@ -274,15 +281,78 @@ void Game::handleEvent(const Event & theEvent)
 	if (theEvent.getType() == A_EVENT)
 	{
 		//ADD 10 RANDOM UNIT
-		for (int i = 0; i < 10; i++)
+		Unit* pUnit = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit == NULL)
 		{
-			Unit* pUnit = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
-			if (pUnit == NULL)
-			{
-				mpUnitManager->deleteRandomUnit();
-			}
+			mpUnitManager->deleteRandomUnit();
+		}
+
+		Unit* pUnit1 = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit1 == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
+		}
+
+		Unit* pUnit2 = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit2 == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
+		}
+
+		Unit* pUnit3 = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit3 == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
+		}
+
+		Unit* pUnit4 = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit4 == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
+		}
+
+		Unit* pUnit5 = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit5 == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
+		}
+
+		Unit* pUnit6 = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit6 == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
+		}
+
+		Unit* pUnit7 = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit7 == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
+		}
+
+		Unit* pUnit8 = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit8 == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
+		}
+
+		Unit* pUnit9 = mpUnitManager->createRandomUnit(*mpSpriteManager->getSprite(AI_ICON_SPRITE_ID));
+		if (pUnit9 == NULL)
+		{
+			mpUnitManager->deleteRandomUnit();
 		}
 		
+		
+	}
+
+	if (theEvent.getType() == SAVE)
+	{
+		//SAVE CERTAIN THINGS
+		string toOpen = "Data.txt";
+		mFout.open(toOpen);
+
+		mFout << mAlignmentWeight << endl << mCohesionWeight << endl << mSeparationWeight << endl << mWanderWeight << endl;
+		
+		mFout.close();
 	}
 }
 

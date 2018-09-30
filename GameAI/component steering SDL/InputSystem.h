@@ -10,6 +10,15 @@ I certify that this assignment is entirely my own work.*/
 #include "Event.h"
 #include "Vector2D.h"
 
+enum Weights
+{
+	COHESION_WEIGHT,
+	SEPERATION_WEIGHT,
+	GROUP_ALIGN_WEIGHT,
+	WANDER_WEIGHT
+};
+
+
 class InputSystem : public Trackable
 {
 public:
@@ -25,11 +34,19 @@ public:
 
 	Vector2D getMousePosition();
 	
+	Weights currentWeight;
 
 private:
 	Event mSystemEvent;
 	SDL_Event mEvent;
 	
 	int mPosX, mPosY;
+
+	const int mChangeWeight = 125;
+
+	int mGroupAlignTemp;
+	int mSeperationTemp;
+	int mCohesionTemp;
+	int mWanderTemp;
 
 };

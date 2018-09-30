@@ -42,6 +42,7 @@
     <ClInclude Include="PlayerMoveToMessage.h" />
     <ClInclude Include="PositionComponent.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Save.h" />
     <ClInclude Include="SeekSteering.h" />
     <ClInclude Include="Seperation.h" />
     <ClInclude Include="Sprite.h" />
@@ -85,6 +86,7 @@
     <ClCompile Include="PlayerMoveToMessage.cpp" />
     <ClCompile Include="PositionComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Save.cpp" />
     <ClCompile Include="SeekSteering.cpp" />
     <ClCompile Include="Seperation.cpp" />
     <ClCompile Include="Sprite.cpp" />

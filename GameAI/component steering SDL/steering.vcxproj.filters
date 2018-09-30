@@ -124,6 +124,9 @@
     <ClCompile Include="AEvent.cpp">
       <Filter>Source Files\Input\Events</Filter>
     </ClCompile>
+    <ClCompile Include="Save.cpp">
+      <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsBuffer.h">
@@ -247,6 +250,9 @@
       <Filter>Header Files\Steering</Filter>
     </ClInclude>
     <ClInclude Include="AEvent.h">
+      <Filter>Header Files\Input\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Save.h">
       <Filter>Header Files\Input\Events</Filter>
     </ClInclude>
   </ItemGroup>

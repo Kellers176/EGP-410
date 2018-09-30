@@ -5,6 +5,8 @@
 #include "DEvent.h"
 #include "AEvent.h"
 #include "EnterEvent.h"
+#include "Save.h"
+#include "Game.h"
 /*Author: Kelly Herstine
 Class: EGP-410
 <Section 01>
@@ -22,6 +24,11 @@ InputSystem::~InputSystem()
 
 void InputSystem::init()
 {
+	mGroupAlignTemp = gpGame->getAlignmentWeight();
+	mCohesionTemp = gpGame->getCohesionWeight();
+	mSeperationTemp = gpGame->getSeperationWeight();
+	mWanderTemp = gpGame->getWanderWeight();
+	currentWeight = GROUP_ALIGN_WEIGHT;
 }
 
 void InputSystem::cleanup()
@@ -56,6 +63,73 @@ void InputSystem::updateKeyboard()
 			if (mEvent.key.keysym.sym == SDLK_a)
 			{
 				mEventSystem->fireEvent(AEvent());
+			}
+			if (mEvent.key.keysym.sym == SDLK_s)
+			{
+				gpGame->setAlignmentWeight(mGroupAlignTemp);
+				gpGame->setCohesionWeight(mCohesionTemp);
+				gpGame->setSeperationWeight(mSeperationTemp);
+				gpGame->setWanderWeight(mWanderTemp);
+
+				mEventSystem->fireEvent(Save());
+			}
+
+
+			if (mEvent.key.keysym.sym == SDLK_1)
+			{
+				currentWeight = GROUP_ALIGN_WEIGHT;
+			}
+			if (mEvent.key.keysym.sym == SDLK_2)
+			{
+				currentWeight = COHESION_WEIGHT;
+			}
+			if (mEvent.key.keysym.sym == SDLK_3)
+			{
+				currentWeight = SEPERATION_WEIGHT;
+			}
+			if (mEvent.key.keysym.sym == SDLK_4)
+			{
+				currentWeight = WANDER_WEIGHT;
+			}
+
+			if (mEvent.key.keysym.sym == SDLK_EQUALS)
+			{
+				if (currentWeight == GROUP_ALIGN_WEIGHT)
+				{
+					mGroupAlignTemp += mChangeWeight;
+				}
+				else if (currentWeight == COHESION_WEIGHT)
+				{
+					mCohesionTemp += mChangeWeight;
+				}
+				else if (currentWeight == SEPERATION_WEIGHT)
+				{
+					mSeperationTemp += mChangeWeight;
+				}
+				else if (currentWeight == WANDER_WEIGHT)
+				{
+					mWanderTemp += mChangeWeight;
+				}
+			}
+
+			if (mEvent.key.keysym.sym == SDLK_MINUS)
+			{
+				if (currentWeight == GROUP_ALIGN_WEIGHT)
+				{
+					mGroupAlignTemp -= mChangeWeight;
+				}
+				else if (currentWeight == COHESION_WEIGHT)
+				{
+					mCohesionTemp -= mChangeWeight;
+				}
+				else if (currentWeight == SEPERATION_WEIGHT)
+				{
+					mSeperationTemp -= mChangeWeight;
+				}
+				else if (currentWeight == WANDER_WEIGHT)
+				{
+					mWanderTemp -= mChangeWeight;
+				}
 			}
 		}
 		if (SDL_GetMouseState(&mPosX, &mPosY) & SDL_BUTTON(SDL_BUTTON_LEFT))
