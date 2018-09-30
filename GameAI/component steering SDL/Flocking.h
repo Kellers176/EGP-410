@@ -10,6 +10,7 @@ I certify that this assignment is entirely my own work.*/
 #include "GroupAlignment.h"
 #include "Seperation.h"
 #include "Cohesion.h"
+#include "WanderSteering.h"
 
 class Flocking : public Steering
 {
@@ -22,6 +23,7 @@ private:
 	GroupAlignment mAlignment;
 	Cohesion mCohesion;
 	Seperation mSeperation;
+	WanderSteering mWander;
 
 	int mGroupAlignmentWeight;
 	int mCohesionWeight;

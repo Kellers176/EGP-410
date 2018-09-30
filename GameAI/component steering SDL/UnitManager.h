@@ -36,6 +36,8 @@ public:
 
 	Unit* getPlayerUnit() const { return getUnit(PLAYER_UNIT_ID); };
 
+	void updateFlockWeights();
+
 private:
 	static UnitID msNextUnitID;
 	MemoryPool mPool;
