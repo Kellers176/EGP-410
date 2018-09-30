@@ -41,7 +41,8 @@ Steering * GroupAlignment::getSteering()
 			y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
 
 			//check if target is too close
-			if ((x * x) + (y * y) < mRadius)
+			if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
+				&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
 			{
 				temp.setX(temp.getX() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getX());
 				temp.setY(temp.getY() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getY());
@@ -53,7 +54,7 @@ Steering * GroupAlignment::getSteering()
 
 	if (threshold == 0)
 	{
-		mData.acc = temp;
+		this->mData.acc = temp;
 		return this;
 	}
 
@@ -63,6 +64,6 @@ Steering * GroupAlignment::getSteering()
 
 	temp.normalize();
 
-	mData.acc = temp;
+	this->mData.acc = temp;
 	return this;
 }

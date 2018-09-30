@@ -42,7 +42,8 @@ Steering * Seperation::getSteering()
 			y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
 
 			//check if target is too close
-			if ((x * x) + (y * y) < mRadius)
+			if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius 
+				&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
 			{
 				temp.setX(temp.getX() + (x));
 				temp.setY(temp.getY() + (y));
@@ -54,7 +55,7 @@ Steering * Seperation::getSteering()
 
 	if (threshold == 0)
 	{
-		mData.acc = temp;
+		this->mData.acc = temp;
 		return this;
 	}
 
@@ -64,7 +65,7 @@ Steering * Seperation::getSteering()
 
 	temp.normalize();
 
-	mData.acc = temp;
+	this->mData.acc = temp;
 	return this;
 
 }

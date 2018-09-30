@@ -41,7 +41,8 @@ Steering * Cohesion::getSteering()
 			y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
 
 			//check if target is too close
-			if ((x * x) + (y * y) < mRadius)
+			if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
+				&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
 			{
 				temp.setX(temp.getX() + gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX());
 				temp.setY(temp.getY() + gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY());
@@ -53,7 +54,7 @@ Steering * Cohesion::getSteering()
 
 	if (threshold == 0)
 	{
-		mData.acc = temp;
+		this->mData.acc = temp;
 		return this;
 	}
 
@@ -66,6 +67,6 @@ Steering * Cohesion::getSteering()
 	
 	temp.normalize();
 
-	mData.acc = temp;
+	this->mData.acc = temp;
 	return this;
 }
