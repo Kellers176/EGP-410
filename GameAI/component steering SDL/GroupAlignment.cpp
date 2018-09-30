@@ -57,7 +57,7 @@ Steering * GroupAlignment::getSteering()
 		return this;
 	}
 
-	//calculate strength and move object
+	
 	temp.setX(temp.getX() / threshold);
 	temp.setY(temp.getY() / threshold);
 

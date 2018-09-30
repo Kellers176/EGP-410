@@ -71,7 +71,7 @@ Unit* UnitManager::createRandomUnit(const Sprite& sprite)
 	int posY = rand() % gpGame->getGraphicsSystem()->getHeight();
 	int velX = rand() % 50 - 25;
 	int velY = rand() % 40 - 20;
-	Unit* pUnit = createUnit(sprite, true, PositionData(Vector2D(posX, posY), 0));
+	Unit* pUnit = createUnit(sprite, true, PositionData(Vector2D(posX, posY), 0)/*, PhysicsData(Vector2D(velX, velY), Vector2D(0.1f, 0.1f), 0.1f, 0.05f)*/);
 	if (pUnit != NULL)
 	{
 		pUnit->setSteering(Steering::FLOCK, Vector2D(gpGame->getGraphicsSystem()->getWidth()/2, gpGame->getGraphicsSystem()->getHeight()/2));
