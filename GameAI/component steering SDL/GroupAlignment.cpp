@@ -36,18 +36,22 @@ Steering * GroupAlignment::getSteering()
 		//check to make sure the unit isnt This unit
 		if (gpGame->getUnitManager()->getUnit(i) != pOwner)
 		{
-			//set x and y to distance between two game objects
-			x = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getX();
-			y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
-
-			//check if target is too close
-			if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
-				&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
+			if (pOwner != NULL && gpGame->getUnitManager()->getUnit(i) != NULL)
 			{
-				temp.setX(temp.getX() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getX());
-				temp.setY(temp.getY() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getY());
 
-				threshold++;
+				//set x and y to distance between two game objects
+				x = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getX();
+				y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
+
+				//check if target is too close
+				if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
+					&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
+				{
+					temp.setX(temp.getX() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getX());
+					temp.setY(temp.getY() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getY());
+
+					threshold++;
+				}
 			}
 		}
 	}

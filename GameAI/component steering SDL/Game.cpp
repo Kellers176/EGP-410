@@ -148,10 +148,10 @@ bool Game::init()
 	}
 
 	//setup units
-	Unit* pUnit = mpUnitManager->createPlayerUnit(*pArrowSprite);
-	pUnit->setShowTarget(true);
-	//NEEED TO CHANGE THIS TO ARRIVE AND MESS WITH THINGS IN SEEKSTEERING!
-	pUnit->setSteering(Steering::SEEK, ZERO_VECTOR2D);
+	//Unit* pUnit = mpUnitManager->createPlayerUnit(*pArrowSprite);
+	//pUnit->setShowTarget(true);
+	////NEEED TO CHANGE THIS TO ARRIVE AND MESS WITH THINGS IN SEEKSTEERING!
+	//pUnit->setSteering(Steering::SEEK, ZERO_VECTOR2D);
 
 	////create 2 enemies
 	//pUnit = mpUnitManager->createUnit(*pEnemyArrow, true, PositionData(Vector2D((float)gpGame->getGraphicsSystem()->getWidth()-1, 0.0f), 0.0f));
@@ -273,7 +273,6 @@ void Game::handleEvent(const Event & theEvent)
 	if (theEvent.getType() == D_EVENT)
 	{
 		//DELETE RANDOM UNIT
-		//not working for flocking for some fucking reason
 		mpUnitManager->deleteRandomUnit();
 		cout << "delete random unit" << endl;
 	}
