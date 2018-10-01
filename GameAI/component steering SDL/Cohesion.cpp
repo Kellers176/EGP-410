@@ -38,7 +38,6 @@ Steering * Cohesion::getSteering()
 		{
 			if (pOwner != NULL && gpGame->getUnitManager()->getUnit(i) != NULL)
 			{
-
 				//set x and y to distance between two game objects
 				x = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getX();
 				y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
