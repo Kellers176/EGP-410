@@ -25,7 +25,7 @@ Steering * GroupAlignment::getSteering()
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
 
 	//new direction
-	Vector2D temp = (0, 0);
+	Vector2D direction = (0, 0);
 	//flock count
 	int threshold = 0;
 
@@ -47,8 +47,8 @@ Steering * GroupAlignment::getSteering()
 				if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
 					&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
 				{
-					temp.setX(temp.getX() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getX());
-					temp.setY(temp.getY() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getY());
+					direction.setX(direction.getX() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getX());
+					direction.setY(direction.getY() + gpGame->getUnitManager()->getUnit(i)->getPhysicsComponent()->getVelocity().getY());
 
 					threshold++;
 				}
@@ -58,16 +58,16 @@ Steering * GroupAlignment::getSteering()
 
 	if (threshold == 0)
 	{
-		this->mData.acc = temp;
+		this->mData.acc = direction;
 		return this;
 	}
 
 	
-	temp.setX(temp.getX() / threshold);
-	temp.setY(temp.getY() / threshold);
+	direction.setX(direction.getX() / threshold);
+	direction.setY(direction.getY() / threshold);
 
-	temp.normalize();
+	direction.normalize();
 
-	this->mData.acc = temp;
+	this->mData.acc = direction;
 	return this;
 }

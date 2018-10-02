@@ -11,6 +11,7 @@ I certify that this assignment is entirely my own work.*/
 #include "Seperation.h"
 #include "Cohesion.h"
 #include "WanderSteering.h"
+#include "FaceSteering.h"
 
 class Flocking : public Steering
 {
@@ -24,8 +25,10 @@ private:
 	Cohesion mCohesion;
 	Seperation mSeperation;
 	WanderSteering mWander;
+	FaceSteering mFace;
 
 	int mGroupAlignmentWeight;
 	int mCohesionWeight;
 	int mSeperationWeight;
+	int mWanderWeight;
 };

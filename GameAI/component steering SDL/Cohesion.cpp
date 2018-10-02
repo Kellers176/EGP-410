@@ -25,7 +25,7 @@ Steering * Cohesion::getSteering()
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
 
 	//new direction
-	Vector2D temp = (0, 0);
+	Vector2D direction = (0, 0);
 	//flock count
 	int threshold = 0;
 
@@ -46,8 +46,8 @@ Steering * Cohesion::getSteering()
 				if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
 					&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
 				{
-					temp.setX(temp.getX() + gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX());
-					temp.setY(temp.getY() + gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY());
+					direction.setX(direction.getX() + gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX());
+					direction.setY(direction.getY() + gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY());
 
 					threshold++;
 				}
@@ -57,19 +57,19 @@ Steering * Cohesion::getSteering()
 
 	if (threshold == 0)
 	{
-		this->mData.acc = temp;
+		this->mData.acc = direction;
 		return this;
 	}
 
-	//calculate strength and move object
-	temp.setX(temp.getX() / threshold);
-	temp.setY(temp.getY() / threshold);
+	//more calculationss
+	direction.setX(direction.getX() / threshold);
+	direction.setY(direction.getY() / threshold);
 
-	temp.setX(temp.getX() - pOwner->getPositionComponent()->getPosition().getX());
-	temp.setY(temp.getY() - pOwner->getPositionComponent()->getPosition().getY());
+	direction.setX(direction.getX() - pOwner->getPositionComponent()->getPosition().getX());
+	direction.setY(direction.getY() - pOwner->getPositionComponent()->getPosition().getY());
 	
-	temp.normalize();
+	direction.normalize();
 
-	this->mData.acc = temp;
+	this->mData.acc = direction;
 	return this;
 }

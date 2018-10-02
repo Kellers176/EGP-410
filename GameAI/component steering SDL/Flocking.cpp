@@ -8,7 +8,8 @@ Flocking::Flocking(const UnitID & ownerID, const Vector2D & targetLoc, const Uni
 	mCohesion(Cohesion(ownerID, targetLoc, mTargetID, false)),
 	mAlignment(GroupAlignment(ownerID, targetLoc, mTargetID, false)),
 	mSeperation(Seperation(ownerID, targetLoc, mTargetID, false)),
-	mWander(WanderSteering(ownerID, targetLoc, mTargetID, false))
+	mWander(WanderSteering(ownerID, targetLoc, mTargetID, false)),
+	mFace(FaceSteering(ownerID, targetLoc, mTargetID, false))
 {
 	if (shouldFlee)
 	{
@@ -34,15 +35,20 @@ Steering * Flocking::getSteering()
 	Steering* mTempAlign = mAlignment.getSteering();
 	Steering* mTempSeperate = mSeperation.getSteering();
 	Steering* mTempWander = mWander.getSteering();
+	Steering* mTempFace = mFace.getSteering();
 
 
-	data.acc.setX((mData.acc.getX() + (mTempAlign->getData().acc.getX() * mGroupAlignmentWeight) + (mTempCohesion->getData().acc.getX() * mCohesionWeight) + (mTempSeperate->getData().acc.getX() * mSeperationWeight)));
-	data.acc.setY((mData.acc.getY() + (mTempAlign->getData().acc.getY() * mGroupAlignmentWeight) + (mTempCohesion->getData().acc.getY() * mCohesionWeight) + (mTempSeperate->getData().acc.getY() * mSeperationWeight)));
+	updateBoidWeight();
+	data.acc.setX((mData.acc.getX() + (mTempAlign->getData().acc.getX() * mGroupAlignmentWeight) + (mTempCohesion->getData().acc.getX() * mCohesionWeight) + (mTempSeperate->getData().acc.getX() * mSeperationWeight) + (mTempAlign->getData().acc.getX() * mWanderWeight)));
+	data.acc.setY((mData.acc.getY() + (mTempAlign->getData().acc.getY() * mGroupAlignmentWeight) + (mTempCohesion->getData().acc.getY() * mCohesionWeight) + (mTempSeperate->getData().acc.getY() * mSeperationWeight) + (mTempAlign->getData().acc.getX() * mWanderWeight)));
 	
 	data.acc.normalize();
 	data.acc *= pOwner->getMaxAcc();
 
-	updateBoidWeight();
+	
+	//data.rotAcc = mTempWander->getData().rotAcc;
+	data.rotAcc = mTempFace->getData().rotAcc;
+
 	this->mData = data;
 	return this;
 }
@@ -52,4 +58,5 @@ void Flocking::updateBoidWeight()
 	mGroupAlignmentWeight = gpGame->getAlignmentWeight();
 	mCohesionWeight = gpGame->getCohesionWeight();
 	mSeperationWeight = gpGame->getSeperationWeight();
+	mWanderWeight = gpGame->getWanderWeight();
 }

@@ -26,7 +26,7 @@ Steering * Seperation::getSteering()
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
 
 	//new direction
-	Vector2D temp = (0, 0);
+	Vector2D direction = (0, 0);
 	//flock count
 	int threshold = 0;
 
@@ -48,8 +48,8 @@ Steering * Seperation::getSteering()
 				if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
 					&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
 				{
-					temp.setX(temp.getX() + (x));
-					temp.setY(temp.getY() + (y));
+					direction.setX(direction.getX() + (x));
+					direction.setY(direction.getY() + (y));
 
 					threshold++;
 				}
@@ -57,19 +57,20 @@ Steering * Seperation::getSteering()
 		}
 	}
 
+
 	if (threshold == 0)
 	{
-		this->mData.acc = temp;
+		this->mData.acc = direction;
 		return this;
 	}
 
-	//calculate strength and move object
-	temp.setX((temp.getX() / threshold) * -1);
-	temp.setY((temp.getY() / threshold) * -1);
+	//more calculationssss
+	direction.setX((direction.getX() / threshold) * -1);
+	direction.setY((direction.getY() / threshold) * -1);
 
-	temp.normalize();
+	direction.normalize();
 
-	this->mData.acc = temp;
+	this->mData.acc = direction;
 	return this;
 
 }
