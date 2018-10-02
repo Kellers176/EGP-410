@@ -38,11 +38,10 @@ Steering * Cohesion::getSteering()
 		{
 			if (pOwner != NULL && gpGame->getUnitManager()->getUnit(i) != NULL)
 			{
-				//set x and y to distance between two game objects
 				x = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getX();
 				y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
 
-				//check if target is too close
+				//check if target is close enough for cohesion
 				if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
 					&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
 				{
@@ -61,7 +60,7 @@ Steering * Cohesion::getSteering()
 		return this;
 	}
 
-	//more calculationss
+	//get average calculations of each unit
 	direction.setX(direction.getX() / threshold);
 	direction.setY(direction.getY() / threshold);
 

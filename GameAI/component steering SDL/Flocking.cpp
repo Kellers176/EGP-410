@@ -47,7 +47,6 @@ Steering * Flocking::getSteering()
 
 	
 	//data.rotAcc = mTempWander->getData().rotAcc;
-	data.rotAcc = mTempFace->getData().rotAcc;
 
 	this->mData = data;
 	return this;

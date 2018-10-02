@@ -38,12 +38,10 @@ Steering * GroupAlignment::getSteering()
 		{
 			if (pOwner != NULL && gpGame->getUnitManager()->getUnit(i) != NULL)
 			{
-
-				//set x and y to distance between two game objects
 				x = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getX();
 				y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
 
-				//check if target is too close
+				//check if target is close and then align
 				if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
 					&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
 				{
@@ -62,7 +60,7 @@ Steering * GroupAlignment::getSteering()
 		return this;
 	}
 
-	
+	//get average align of all unit
 	direction.setX(direction.getX() / threshold);
 	direction.setY(direction.getY() / threshold);
 
