@@ -67,9 +67,6 @@
     <ClCompile Include="Font.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="ArriveSteering.cpp">
-      <Filter>Source Files\Steering</Filter>
-    </ClCompile>
     <ClCompile Include="FaceSteering.cpp">
       <Filter>Source Files\Steering</Filter>
     </ClCompile>
@@ -126,6 +123,9 @@
     </ClCompile>
     <ClCompile Include="Save.cpp">
       <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="ArriveSteering.cpp">
+      <Filter>Source Files\Steering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

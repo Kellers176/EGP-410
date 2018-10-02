@@ -46,8 +46,9 @@ Steering * Flocking::getSteering()
 	data.acc *= pOwner->getMaxAcc();
 
 	
-	//data.rotAcc = mTempWander->getData().rotAcc;
-	data.rotAcc = mTempFace->getData().rotAcc;
+	data.rotAcc = mWander.getData().rotAcc;
+	//cout << data.rotAcc << endl;
+
 
 	this->mData = data;
 	return this;

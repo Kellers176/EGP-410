@@ -15,5 +15,5 @@ public:
 	virtual Steering* getSteering();
 
 private:
-	const float mRadius = 200.0f;
+	const float mRadius = 300.0f;
 };

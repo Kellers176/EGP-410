@@ -39,24 +39,19 @@ Steering * Seperation::getSteering()
 		{
 			if (pOwner != NULL && gpGame->getUnitManager()->getUnit(i) != NULL)
 			{
+				Unit* unit = gpGame->getUnitManager()->getUnit(i);
+				int distanceX = unit->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX();
+				int distanceY = unit->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY();
 
-				//set x and y to distance between two game objects
-				x = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getX();
-				y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
-
-				//check if target is too close
-				if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
-					&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
+				//check if target is too close try to align to it
+				if (distanceX < mRadius && distanceY < mRadius)
 				{
-					direction.setX(direction.getX() + (x));
-					direction.setY(direction.getY() + (y));
-
+					direction += unit->getPhysicsComponent()->getAcceleration() - pOwner->getPositionComponent()->getPosition();
 					threshold++;
 				}
 			}
 		}
 	}
-
 
 	if (threshold == 0)
 	{
@@ -64,13 +59,12 @@ Steering * Seperation::getSteering()
 		return this;
 	}
 
-	//more calculationssss
-	direction.setX((direction.getX() / threshold) * -1);
-	direction.setY((direction.getY() / threshold) * -1);
-
+	//reverse the steering
+	direction *= -1;
+	//average out remaining units
+	direction /= threshold;
 	direction.normalize();
 
 	this->mData.acc = direction;
 	return this;
-
 }

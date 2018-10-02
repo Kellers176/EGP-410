@@ -38,17 +38,14 @@ Steering * Cohesion::getSteering()
 		{
 			if (pOwner != NULL && gpGame->getUnitManager()->getUnit(i) != NULL)
 			{
-				//set x and y to distance between two game objects
-				x = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getX();
-				y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
+				Unit* unit = gpGame->getUnitManager()->getUnit(i);
+				int distanceX = unit->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX();
+				int distanceY = unit->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY();
 
-				//check if target is too close
-				if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
-					&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
+				//check if target is close and then try to get in radius of it
+				if (distanceX < mRadius && distanceY < mRadius)
 				{
-					direction.setX(direction.getX() + gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX());
-					direction.setY(direction.getY() + gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY());
-
+					direction += unit->getPositionComponent()->getPosition();
 					threshold++;
 				}
 			}
@@ -61,13 +58,9 @@ Steering * Cohesion::getSteering()
 		return this;
 	}
 
-	//more calculationss
-	direction.setX(direction.getX() / threshold);
-	direction.setY(direction.getY() / threshold);
-
-	direction.setX(direction.getX() - pOwner->getPositionComponent()->getPosition().getX());
-	direction.setY(direction.getY() - pOwner->getPositionComponent()->getPosition().getY());
-	
+	//average out locations
+	direction /= threshold;
+	direction -= pOwner->getPositionComponent()->getPosition();
 	direction.normalize();
 
 	this->mData.acc = direction;

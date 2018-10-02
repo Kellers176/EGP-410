@@ -7,6 +7,7 @@ Certification of Authenticity:
 I certify that this assignment is entirely my own work.*/
 #include <Trackable.h>
 #include "Steering.h"
+#include "FaceSteering.h"
 class GroupAlignment : public Steering
 {
 public:
@@ -15,4 +16,5 @@ public:
 
 private:
 	const float mRadius = 200.0f;
+	FaceSteering mFace;
 };
