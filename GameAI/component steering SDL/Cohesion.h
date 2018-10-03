@@ -11,8 +11,8 @@ class Cohesion : public Steering
 {
 public:
 	Cohesion(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee);
-	virtual Steering* getSteering();
+	Vector2D getCohesion();
 
 private:
-	const float mRadius = 400.0f;
+	 float mRadius = 300.0f;
 };

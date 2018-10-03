@@ -12,9 +12,9 @@ class GroupAlignment : public Steering
 {
 public:
 	GroupAlignment(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee);
-	virtual Steering* getSteering();
+	Vector2D getAlignment();
 
 private:
-	const float mRadius = 200.0f;
+	const float mRadius = 100.0f;
 	FaceSteering mFace;
 };

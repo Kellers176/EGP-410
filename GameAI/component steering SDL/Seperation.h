@@ -12,8 +12,8 @@ class Seperation : public Steering
 {
 public:
 	Seperation(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee);
-	virtual Steering* getSteering();
+	Vector2D getSeperation();
 
 private:
-	const float mRadius = 300.0f;
+	const float mRadius = 50.0f;
 };

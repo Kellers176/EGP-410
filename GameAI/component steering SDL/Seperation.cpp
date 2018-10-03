@@ -19,52 +19,54 @@ Seperation::Seperation(const UnitID & ownerID, const Vector2D & targetLoc, const
 
 }
 
-Steering * Seperation::getSteering()
+Vector2D Seperation::getSeperation()
 {
-	Vector2D diff;
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
-
+	float tmp;
+	map<UnitID, Unit*> mMap = gpGame->getUnitManager()->getMap();
 	//new direction
-	Vector2D direction = (0, 0);
+	Vector2D myFinalDirection;
 	//flock count
 	int threshold = 0;
 
 	float x, y;
-
-	for (int i = 0; i < gpGame->getUnitManager()->getUnitCount(); i++)
+	map<UnitID, Unit*>::iterator unit;
+	for (unit = mMap.begin(); unit != mMap.end(); unit++)
 	{
 		//check to make sure the unit isnt This unit
-		if (gpGame->getUnitManager()->getUnit(i) != pOwner)
+		if (unit->second != pOwner)
 		{
-			if (pOwner != NULL && gpGame->getUnitManager()->getUnit(i) != NULL)
+			Vector2D myCurrentDirection = unit->second->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition();
+			float distance = myCurrentDirection.getLength();
+			//check if target is close and then try to get in radius of it
+			if (distance < mRadius)
 			{
-				Unit* unit = gpGame->getUnitManager()->getUnit(i);
-				int distanceX = unit->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX();
-				int distanceY = unit->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY();
-
-				//check if target is too close try to align to it
-				if (distanceX < mRadius && distanceY < mRadius)
-				{
-					direction += unit->getPhysicsComponent()->getAcceleration() - pOwner->getPositionComponent()->getPosition();
-					threshold++;
-				}
+				tmp = myFinalDirection.getX() + (unit->second->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX());
+				myFinalDirection.setX(tmp);
+				tmp = myFinalDirection.getY() + (unit->second->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY());
+				myFinalDirection.setY(tmp);
+				threshold++;
 			}
+
 		}
 	}
 
 	if (threshold == 0)
 	{
-		this->mData.acc = direction;
-		return this;
+		return myFinalDirection;
 	}
 
-	//reverse the steering
-	direction *= -1;
-	//average out remaining units
-	direction /= threshold;
-	direction.normalize();
+	//reverse the velocity and average out the positions
+	tmp = myFinalDirection.getX() / threshold;
+	tmp *= -1;
+	myFinalDirection.setX(tmp);
 
-	this->mData.acc = direction;
-	return this;
+	tmp = myFinalDirection.getX() / threshold;
+	tmp *= -1;
+	myFinalDirection.setY(tmp);
+
+	myFinalDirection.normalize();
+
+	return myFinalDirection;
 }

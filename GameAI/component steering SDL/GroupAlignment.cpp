@@ -20,53 +20,52 @@ GroupAlignment::GroupAlignment(const UnitID & ownerID, const Vector2D & targetLo
 	setTargetLoc(targetLoc);
 }
 
-Steering * GroupAlignment::getSteering()
+Vector2D GroupAlignment::getAlignment()
 {
-	Vector2D diff;
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
-	Steering* mTempFace = mFace.getSteering();
+	float tmp;
+	map<UnitID, Unit*> mMap = gpGame->getUnitManager()->getMap();
 	//new direction
-	Vector2D direction = (0, 0);
+	Vector2D myFinalDirection;
 	//flock count
 	int threshold = 0;
 
-
-	for (int i = 0; i < gpGame->getUnitManager()->getUnitCount(); i++)
+	float x, y;
+	map<UnitID, Unit*>::iterator unit;
+	for (unit = mMap.begin(); unit != mMap.end(); unit++)
 	{
 		//check to make sure the unit isnt This unit
-		if (gpGame->getUnitManager()->getUnit(i) != pOwner)
+		if (unit->second != pOwner)
 		{
-			if (pOwner != NULL && gpGame->getUnitManager()->getUnit(i) != NULL)
+			Vector2D myCurrentDirection = unit->second->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition();
+			float distance = myCurrentDirection.getLength();
+			//check if target is close and then try to get in radius of it
+			if (distance < mRadius)
 			{
-				Unit* unit = gpGame->getUnitManager()->getUnit(i);
-				int distanceX = unit->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX();
-				int distanceY = unit->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY();
-
-				//check if arget is close enough and try to align
-				if (distanceX < mRadius && distanceY < mRadius)
-				{
-					direction += unit->getPhysicsComponent()->getAcceleration();
-					threshold++;
-				}
+				tmp = myFinalDirection.getX() + unit->second->getPhysicsComponent()->getVelocity().getX();
+				myFinalDirection.setX(tmp);
+				tmp = myFinalDirection.getY() + unit->second->getPhysicsComponent()->getVelocity().getY();
+				myFinalDirection.setY(tmp);
+				threshold++;
 			}
+
 		}
 	}
 
 	if (threshold == 0)
 	{
-		this->mData.acc = direction;
-		return this;
+		return myFinalDirection;
 	}
 
-	//cout << direction.getX() << "," << direction.getY() << endl;
-	mFace.setTargetLoc(direction);
-	data.rotAcc = mFace.getData().rotAcc;
-
 	//average out all alignments
-	direction /= threshold;
-	direction.normalize();
+	tmp = myFinalDirection.getX() / threshold;
+	myFinalDirection.setX(tmp);
 
-	this->mData.acc = direction;
-	return this;
+	tmp = myFinalDirection.getY() / threshold;
+	myFinalDirection.setY(tmp);
+
+	myFinalDirection.normalize();
+
+	return myFinalDirection;
 }

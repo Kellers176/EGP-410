@@ -31,24 +31,22 @@ Steering * Flocking::getSteering()
 {
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
-	Steering* mTempCohesion = mCohesion.getSteering();
-	Steering* mTempAlign = mAlignment.getSteering();
-	Steering* mTempSeperate = mSeperation.getSteering();
+	Vector2D mTempCohesion = mCohesion.getCohesion();
+	Vector2D mTempAlign = mAlignment.getAlignment();
+	Vector2D mTempSeperate = mSeperation.getSeperation();
 	Steering* mTempWander = mWander.getSteering();
-	Steering* mTempFace = mFace.getSteering();
 
+	float x, y;
+
+	data = mTempWander->getData();
 
 	updateBoidWeight();
-	data.acc.setX((mData.acc.getX() + (mTempAlign->getData().acc.getX() * mGroupAlignmentWeight) + (mTempCohesion->getData().acc.getX() * mCohesionWeight) + (mTempSeperate->getData().acc.getX() * mSeperationWeight) + (mTempAlign->getData().acc.getX() * mWanderWeight)));
-	data.acc.setY((mData.acc.getY() + (mTempAlign->getData().acc.getY() * mGroupAlignmentWeight) + (mTempCohesion->getData().acc.getY() * mCohesionWeight) + (mTempSeperate->getData().acc.getY() * mSeperationWeight) + (mTempAlign->getData().acc.getX() * mWanderWeight)));
+	x = data.acc.getX() + (mTempAlign.getX() * mGroupAlignmentWeight) + (mTempCohesion.getX() * mCohesionWeight) + (mTempSeperate.getX() * mSeperationWeight);
+	y = data.acc.getY() + (mTempAlign.getY() * mGroupAlignmentWeight) + (mTempCohesion.getY() * mCohesionWeight) + (mTempSeperate.getY() * mSeperationWeight);
 	
-	data.acc.normalize();
-	data.acc *= pOwner->getMaxAcc();
-
+	Vector2D acc = Vector2D(x, y);
 	
-	data.rotAcc = mWander.getData().rotAcc;
-	//cout << data.rotAcc << endl;
-
+	data.acc = acc;
 
 	this->mData = data;
 	return this;
