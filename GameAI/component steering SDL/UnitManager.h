@@ -33,6 +33,7 @@ public:
 
 	void drawAll() const;
 	void updateAll(float elapsedTime);
+	std::map<UnitID, Unit*> getMap() { return mUnitMap; };
 
 	Unit* getPlayerUnit() const { return getUnit(PLAYER_UNIT_ID); };
 

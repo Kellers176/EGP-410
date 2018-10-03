@@ -24,33 +24,31 @@ Steering * Seperation::getSteering()
 	Vector2D diff;
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
-
+	map<UnitID, Unit*> mMap = gpGame->getUnitManager()->getMap();
 	//new direction
 	Vector2D direction = (0, 0);
 	//flock count
 	int threshold = 0;
 
 	float x, y;
-
-	for (int i = 0; i < gpGame->getUnitManager()->getUnitCount(); i++)
+	map<UnitID, Unit*>::iterator unit;
+	for (unit = mMap.begin(); unit != mMap.end(); unit++)
 	{
 		//check to make sure the unit isnt This unit
-		if (gpGame->getUnitManager()->getUnit(i) != pOwner)
+		if (unit->second != pOwner)
 		{
-			if (pOwner != NULL && gpGame->getUnitManager()->getUnit(i) != NULL)
-			{
-				x = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getX();
-				y = (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
+			x = (unit->second->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getX();
+			y = (unit->second->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition()).getY();
 
-				//check if target is close and seperate if necessary
-				if ((gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
-					&& (gpGame->getUnitManager()->getUnit(i)->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
-				{
+			//check if target is close and then align
+			if ((unit->second->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX()) < mRadius
+				&& (unit->second->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY()) < mRadius)
+			{
 					direction.setX(direction.getX() + (x));
 					direction.setY(direction.getY() + (y));
 
 					threshold++;
-				}
+				
 			}
 		}
 	}
