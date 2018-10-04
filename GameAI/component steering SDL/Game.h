@@ -51,14 +51,14 @@ public:
 	inline Timer* getMasterTimer() const { return mpMasterTimer; };
 	inline double getCurrentTime() const { return mpMasterTimer->getElapsedTime(); };
 
-	inline int getAlignmentWeight() { return mAlignmentWeight; };
-	inline int getWanderWeight() { return mWanderWeight; };
-	inline int getCohesionWeight() { return mCohesionWeight; };
-	inline int getSeperationWeight() { return mSeparationWeight; };
-	inline void setAlignmentWeight(int weight) { mAlignmentWeight = weight; };
-	inline void setCohesionWeight(int weight) { mCohesionWeight = weight; };
-	inline void setSeperationWeight(int weight) { mSeparationWeight = weight; };
-	inline void setWanderWeight(int weight) { mWanderWeight = weight; };
+	inline float getAlignmentWeight() { return mAlignmentWeight; };
+	inline float getWanderWeight() { return mWanderWeight; };
+	inline float getCohesionWeight() { return mCohesionWeight; };
+	inline float getSeperationWeight() { return mSeparationWeight; };
+	inline void setAlignmentWeight(float weight) { mAlignmentWeight = weight; };
+	inline void setCohesionWeight(float weight) { mCohesionWeight = weight; };
+	inline void setSeperationWeight(float weight) { mSeparationWeight = weight; };
+	inline void setWanderWeight(float weight) { mWanderWeight = weight; };
 
 	void handleEvent(const Event &theEvent);
 
@@ -79,10 +79,10 @@ private:
 	ifstream mFin;
 	ofstream mFout;
 
-	int mAlignmentWeight;
-	int mCohesionWeight;
-	int mSeparationWeight;
-	int mWanderWeight;
+	float mAlignmentWeight;
+	float mCohesionWeight;
+	float mSeparationWeight;
+	float mWanderWeight;
 
 	//should be somewhere else
 	GraphicsBufferID mBackgroundBufferID = "woods";
