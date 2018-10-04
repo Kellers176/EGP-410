@@ -66,6 +66,31 @@ void InputSystem::updateKeyboard()
 			}
 			if (mEvent.key.keysym.sym == SDLK_s)
 			{
+				if (mGroupAlignTemp > 1.0f)
+				{
+					mGroupAlignTemp = 1.0f;
+				}
+				else if (mCohesionTemp > 1.0f)
+				{
+					mCohesionTemp = 1.0f;
+				}
+				else if (mSeperationTemp > 1.0f)
+				{
+					mSeperationTemp = 1.0f;
+				}
+
+				if (mGroupAlignTemp < 0.0f)
+				{
+					mGroupAlignTemp = 0.0f;
+				}
+				else if (mCohesionTemp  < 0.0f)
+				{
+					mCohesionTemp = 0.0f;
+				}
+				else if (mSeperationTemp  < 0.0f)
+				{
+					mSeperationTemp = 0.0f;
+				}
 				gpGame->setAlignmentWeight(mGroupAlignTemp);
 				gpGame->setCohesionWeight(mCohesionTemp);
 				gpGame->setSeperationWeight(mSeperationTemp);
@@ -87,10 +112,7 @@ void InputSystem::updateKeyboard()
 			{
 				currentWeight = SEPERATION_WEIGHT;
 			}
-			if (mEvent.key.keysym.sym == SDLK_4)
-			{
-				currentWeight = WANDER_WEIGHT;
-			}
+
 
 			if (mEvent.key.keysym.sym == SDLK_EQUALS)
 			{
