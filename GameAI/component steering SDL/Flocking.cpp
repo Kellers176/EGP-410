@@ -45,7 +45,6 @@ Steering * Flocking::getSteering()
 	data.acc.normalize();
 	data.acc *= pOwner->getMaxAcc();
 
-	
 	data.rotAcc = mTempWander->getData().rotAcc;
 
 	this->mData = data;
