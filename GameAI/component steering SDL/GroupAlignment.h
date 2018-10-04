@@ -15,6 +15,7 @@ public:
 	Vector2D getAlignment();
 
 private:
-	const float mRadius = 100.0f;
+	const float mRadius = 300.0f;
 	FaceSteering mFace;
+	Vector2D mFinalDirection;
 };

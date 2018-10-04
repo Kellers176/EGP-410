@@ -14,5 +14,6 @@ public:
 	Vector2D getCohesion();
 
 private:
-	 float mRadius = 300.0f;
+	 float mRadius = 200.0f;
+	 Vector2D mFinalDirection;
 };

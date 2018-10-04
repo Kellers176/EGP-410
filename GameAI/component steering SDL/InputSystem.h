@@ -42,11 +42,11 @@ private:
 	
 	int mPosX, mPosY;
 
-	const int mChangeWeight = 125;
+	const float mChangeWeight = 0.1f;
 
-	int mGroupAlignTemp;
-	int mSeperationTemp;
-	int mCohesionTemp;
-	int mWanderTemp;
+	float mGroupAlignTemp;
+	float mSeperationTemp;
+	float mCohesionTemp;
+	float mWanderTemp;
 
 };

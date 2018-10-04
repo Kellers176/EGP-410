@@ -22,10 +22,9 @@ Vector2D Cohesion::getCohesion()
 {
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
-	float tmp;
+	Vector2D tmp;
 	map<UnitID, Unit*> mMap = gpGame->getUnitManager()->getMap();
 	//new direction
-	Vector2D myFinalDirection;
 	//flock count
 	int threshold = 0;
 
@@ -41,32 +40,27 @@ Vector2D Cohesion::getCohesion()
 			//check if target is close and then try to get in radius of it
 			if (distance < mRadius)
 			{
-				tmp = myFinalDirection.getX() + unit->second->getPositionComponent()->getPosition().getX();
-				myFinalDirection.setX(tmp);
-				tmp = myFinalDirection.getY() + unit->second->getPositionComponent()->getPosition().getY();
-				myFinalDirection.setY(tmp);
+				tmp += unit->second->getPositionComponent()->getPosition();
+				//tmp = myFinalDirection.getX() + unit->second->getPhysicsComponent()->getVelocity().getX();
+				//myFinalDirection.setX(tmp);
+				//tmp = myFinalDirection.getY() + unit->second->getPhysicsComponent()->getVelocity().getY();
+				//myFinalDirection.setY(tmp);
 				threshold++;
 			}
-			
+
 		}
 	}
 
 	if (threshold == 0)
 	{
-		return myFinalDirection;
+		return mFinalDirection;
 	}
 
 	//average out locations
-	//average out locations
-	tmp = myFinalDirection.getX() / threshold;
-	myFinalDirection.setX(tmp);
+	tmp /= threshold;
+	tmp = tmp - pOwner->getPositionComponent()->getPosition();
+	
+	mFinalDirection = tmp;
 
-	tmp = myFinalDirection.getY() / threshold;
-	myFinalDirection.setY(tmp);
-
-	myFinalDirection = Vector2D(myFinalDirection.getX() - pOwner->getPositionComponent()->getPosition().getX(), 
-		myFinalDirection.getY() - pOwner->getPositionComponent()->getPosition().getY());
-	myFinalDirection.normalize();
-
-	return myFinalDirection;
+	return mFinalDirection;
 }

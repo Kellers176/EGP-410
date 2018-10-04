@@ -24,10 +24,9 @@ Vector2D GroupAlignment::getAlignment()
 {
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
-	float tmp;
+	Vector2D tmp;
 	map<UnitID, Unit*> mMap = gpGame->getUnitManager()->getMap();
 	//new direction
-	Vector2D myFinalDirection;
 	//flock count
 	int threshold = 0;
 
@@ -43,10 +42,11 @@ Vector2D GroupAlignment::getAlignment()
 			//check if target is close and then try to get in radius of it
 			if (distance < mRadius)
 			{
-				tmp = myFinalDirection.getX() + unit->second->getPhysicsComponent()->getVelocity().getX();
-				myFinalDirection.setX(tmp);
-				tmp = myFinalDirection.getY() + unit->second->getPhysicsComponent()->getVelocity().getY();
-				myFinalDirection.setY(tmp);
+				tmp += unit->second->getPhysicsComponent()->getData().vel;
+				//tmp = myFinalDirection.getX() + unit->second->getPhysicsComponent()->getVelocity().getX();
+				//myFinalDirection.setX(tmp);
+				//tmp = myFinalDirection.getY() + unit->second->getPhysicsComponent()->getVelocity().getY();
+				//myFinalDirection.setY(tmp);
 				threshold++;
 			}
 
@@ -55,17 +55,13 @@ Vector2D GroupAlignment::getAlignment()
 
 	if (threshold == 0)
 	{
-		return myFinalDirection;
+		return mFinalDirection;
 	}
 
 	//average out all alignments
-	tmp = myFinalDirection.getX() / threshold;
-	myFinalDirection.setX(tmp);
+	tmp /= threshold;
 
-	tmp = myFinalDirection.getY() / threshold;
-	myFinalDirection.setY(tmp);
+	mFinalDirection = tmp;
+	return mFinalDirection;
 
-	myFinalDirection.normalize();
-
-	return myFinalDirection;
 }

@@ -16,4 +16,5 @@ public:
 
 private:
 	const float mRadius = 50.0f;
+	Vector2D mFinalDirection;
 };

@@ -23,10 +23,9 @@ Vector2D Seperation::getSeperation()
 {
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
-	float tmp;
+	Vector2D tmp;
 	map<UnitID, Unit*> mMap = gpGame->getUnitManager()->getMap();
 	//new direction
-	Vector2D myFinalDirection;
 	//flock count
 	int threshold = 0;
 
@@ -42,10 +41,11 @@ Vector2D Seperation::getSeperation()
 			//check if target is close and then try to get in radius of it
 			if (distance < mRadius)
 			{
-				tmp = myFinalDirection.getX() + (unit->second->getPositionComponent()->getPosition().getX() - pOwner->getPositionComponent()->getPosition().getX());
-				myFinalDirection.setX(tmp);
-				tmp = myFinalDirection.getY() + (unit->second->getPositionComponent()->getPosition().getY() - pOwner->getPositionComponent()->getPosition().getY());
-				myFinalDirection.setY(tmp);
+				tmp += myCurrentDirection;
+				//tmp = myFinalDirection.getX() + unit->second->getPhysicsComponent()->getVelocity().getX();
+				//myFinalDirection.setX(tmp);
+				//tmp = myFinalDirection.getY() + unit->second->getPhysicsComponent()->getVelocity().getY();
+				//myFinalDirection.setY(tmp);
 				threshold++;
 			}
 
@@ -54,19 +54,12 @@ Vector2D Seperation::getSeperation()
 
 	if (threshold == 0)
 	{
-		return myFinalDirection;
+		return mFinalDirection;
 	}
 
 	//reverse the velocity and average out the positions
-	tmp = myFinalDirection.getX() / threshold;
 	tmp *= -1;
-	myFinalDirection.setX(tmp);
+	mFinalDirection = tmp;
 
-	tmp = myFinalDirection.getX() / threshold;
-	tmp *= -1;
-	myFinalDirection.setY(tmp);
-
-	myFinalDirection.normalize();
-
-	return myFinalDirection;
+	return mFinalDirection;
 }

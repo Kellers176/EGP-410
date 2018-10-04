@@ -25,10 +25,16 @@ private:
 	Cohesion mCohesion;
 	Seperation mSeperation;
 	WanderSteering mWander;
-	FaceSteering mFace;
 
-	int mGroupAlignmentWeight;
-	int mCohesionWeight;
-	int mSeperationWeight;
-	int mWanderWeight;
+	float mGroupAlignmentWeight;
+	float mCohesionWeight;
+	float mSeperationWeight;
+	float mWanderWeight;
+
+	int mRadius = 100;
+	int mRotation = rand() % 360;
+	int mOffset = 100;
+	float degrees = -90.0f * 3.14f / 180.0f;
+	Vector2D mDirection;
+	Vector2D mTargetDirection;
 };

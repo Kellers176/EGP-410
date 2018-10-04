@@ -34,9 +34,9 @@ Steering * ArriveSteering::getSteering()
 	Vector2D targetVelocity;
 	float distance;
 	float targetSpeed;
-	float targetRadius = 10.0;
-	float slowRadius = 200.0;
-	float timeToTarget = 0.1;
+	float targetRadius = 10.0f;
+	float slowRadius = 200.0f;
+	float timeToTarget = 0.1f;
 	Unit* pOwner = gpGame->getUnitManager()->getUnit(mOwnerID);
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
 	//are we seeking a location or a unit?

@@ -97,14 +97,17 @@ void InputSystem::updateKeyboard()
 				if (currentWeight == GROUP_ALIGN_WEIGHT)
 				{
 					mGroupAlignTemp += mChangeWeight;
+					gpGame->setAlignmentWeight(mGroupAlignTemp);
 				}
 				else if (currentWeight == COHESION_WEIGHT)
 				{
 					mCohesionTemp += mChangeWeight;
+					gpGame->setCohesionWeight(mCohesionTemp);
 				}
 				else if (currentWeight == SEPERATION_WEIGHT)
 				{
 					mSeperationTemp += mChangeWeight;
+					gpGame->setSeperationWeight(mSeperationTemp);
 				}
 				else if (currentWeight == WANDER_WEIGHT)
 				{
