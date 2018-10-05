@@ -12,7 +12,6 @@ Assignment: Assignment1
 Certification of Authenticity:
 I certify that this assignment is entirely my own work.*/
 
-
 FaceSteering::FaceSteering(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee)
 	: Steering()
 {

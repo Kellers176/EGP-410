@@ -2,6 +2,13 @@
 #include "Unit.h"
 #include "UnitManager.h"
 #include "Game.h"
+/*Author: Kelly Herstine
+Class: EGP-410
+<Section 01>
+Assignment: Assignment2
+Certification of Authenticity:
+I certify that this assignment is entirely my own work.*/
+
 Seperation::Seperation(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee)
 	: Steering()
 {
@@ -42,10 +49,6 @@ Vector2D Seperation::getSeperation()
 			if (distance < mRadius)
 			{
 				tmp += myCurrentDirection;
-				//tmp = myFinalDirection.getX() + unit->second->getPhysicsComponent()->getVelocity().getX();
-				//myFinalDirection.setX(tmp);
-				//tmp = myFinalDirection.getY() + unit->second->getPhysicsComponent()->getVelocity().getY();
-				//myFinalDirection.setY(tmp);
 				threshold++;
 			}
 

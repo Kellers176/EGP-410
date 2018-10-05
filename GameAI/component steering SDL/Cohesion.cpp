@@ -2,6 +2,12 @@
 #include "Unit.h"
 #include "UnitManager.h"
 #include "Game.h"
+/*Author: Kelly Herstine
+Class: EGP-410
+<Section 01>
+Assignment: Assignment2
+Certification of Authenticity:
+I certify that this assignment is entirely my own work.*/
 
 Cohesion::Cohesion(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee)
 {
@@ -24,7 +30,6 @@ Vector2D Cohesion::getCohesion()
 	PhysicsData data = pOwner->getPhysicsComponent()->getData();
 	Vector2D tmp;
 	map<UnitID, Unit*> mMap = gpGame->getUnitManager()->getMap();
-	//new direction
 	//flock count
 	int threshold = 0;
 
@@ -32,7 +37,7 @@ Vector2D Cohesion::getCohesion()
 	map<UnitID, Unit*>::iterator unit;
 	for (unit = mMap.begin(); unit != mMap.end(); unit++)
 	{
-		//check to make sure the unit isnt This unit
+		//check to make sure the unit isnt the current unit
 		if (unit->second != pOwner)
 		{
 			Vector2D myCurrentDirection = unit->second->getPositionComponent()->getPosition() - pOwner->getPositionComponent()->getPosition();
@@ -41,10 +46,6 @@ Vector2D Cohesion::getCohesion()
 			if (distance < mRadius)
 			{
 				tmp += unit->second->getPositionComponent()->getPosition();
-				//tmp = myFinalDirection.getX() + unit->second->getPhysicsComponent()->getVelocity().getX();
-				//myFinalDirection.setX(tmp);
-				//tmp = myFinalDirection.getY() + unit->second->getPhysicsComponent()->getVelocity().getY();
-				//myFinalDirection.setY(tmp);
 				threshold++;
 			}
 

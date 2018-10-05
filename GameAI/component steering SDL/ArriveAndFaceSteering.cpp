@@ -10,6 +10,7 @@ Class: EGP-410
 Assignment: Assignment1
 Certification of Authenticity:
 I certify that this assignment is entirely my own work.*/
+
 ArriveAndFaceSteering::ArriveAndFaceSteering(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee)
 	: Steering()
 	, mArriveSteering(ArriveSteering(ownerID, targetLoc, targetID, shouldFlee)),

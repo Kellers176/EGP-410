@@ -3,6 +3,13 @@
 #include "UnitManager.h"
 #include "Game.h"
 #include "WanderSteering.h"
+/*Author: Kelly Herstine
+Class: EGP-410
+<Section 01>
+Assignment: Assignment2
+Certification of Authenticity:
+I certify that this assignment is entirely my own work.*/
+
 Flocking::Flocking(const UnitID & ownerID, const Vector2D & targetLoc, const UnitID & targetID, bool shouldFlee)
 	:Steering(),
 	mCohesion(Cohesion(ownerID, targetLoc, mTargetID, false)),
@@ -36,29 +43,38 @@ Steering * Flocking::getSteering()
 
 	float x, y;
 
+	//get units to wander
 	data = mTempWander->getData();
 
+	//update the blended weights
 	updateBoidWeight();
 
+	//assign blended weights to float variables
 	x = (mTempAlign.getX() * mGroupAlignmentWeight) + (mTempCohesion.getX() * mCohesionWeight) + (mTempSeperate.getX() * mSeperationWeight);
 	y = (mTempAlign.getY() * mGroupAlignmentWeight) + (mTempCohesion.getY() * mCohesionWeight) + (mTempSeperate.getY() * mSeperationWeight);
 	
+	//set blended weights inside vector and then normalize them
 	Vector2D blendedWeights = Vector2D(x, y);
 	blendedWeights.normalize();
 
+	//get the orientation of the units and normalize them
 	Vector2D mapOrientation(cos(pOwner->getFacing() * mRadius), sin(pOwner->getFacing() * mRadius));
 	mapOrientation.normalize();
 
+	//set the direction that they currently are in
 	mDirection.setX(cos(mRotation * 3.14f / 180.0f) * mRadius);
 	mDirection.setY(sin(mRotation * 3.14f / 180.0f) * mRadius);
 
+	//set the target direction and add the blended weights to it
 	mTargetDirection = mDirection + (mapOrientation * mOffset);
 	mTargetDirection.normalize();
 	mTargetDirection += blendedWeights;
 
+	//set the facing of the units
 	FaceSteering mFace(mOwnerID, mTargetDirection + pOwner->getPositionComponent()->getPosition(), mTargetID, false);
 	data = mFace.getSteering()->getData();
 
+	//normalize the direction and assign it to the untis
 	mTargetDirection.normalize();
 	data.acc = mTargetDirection * MAX_ACC;
 
@@ -68,10 +84,12 @@ Steering * Flocking::getSteering()
 
 void Flocking::updateBoidWeight()
 {
+	//update the weights
 	mGroupAlignmentWeight = gpGame->getAlignmentWeight();
 	mCohesionWeight = gpGame->getCohesionWeight();
 	mSeperationWeight = gpGame->getSeperationWeight();
 
+	//cap the weights at 0.0 and 1.0f
 	if (mGroupAlignmentWeight > 1.0f)
 	{
 		gpGame->setAlignmentWeight(1.0f);
