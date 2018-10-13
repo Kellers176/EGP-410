@@ -28,6 +28,18 @@
     <Filter Include="Source Files\pathfinding">
       <UniqueIdentifier>{474fbefa-c012-4187-954c-fdb12b4f06d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Inputs">
+      <UniqueIdentifier>{4b88ffe4-6ebd-4553-8693-adaffd55b348}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Inputs\Events">
+      <UniqueIdentifier>{4e07e96c-7810-463e-9030-55e69af432c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{bb5d9398-86c6-46ac-a5db-b5c36386b7b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input\Events">
+      <UniqueIdentifier>{83cf71cc-73c7-45a8-bb22-800055abf261}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\common\Game.h">
@@ -108,6 +120,39 @@
     <ClInclude Include="..\common\Font.h">
       <Filter>Common\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Dijkstra.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="AStar.h">
+      <Filter>Header Files\pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>Header Files\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Listener.h">
+      <Filter>Header Files\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSystem.h">
+      <Filter>Header Files\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="EventListener.h">
+      <Filter>Header Files\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Header Files\Inputs</Filter>
+    </ClInclude>
+    <ClInclude Include="AEvent.h">
+      <Filter>Header Files\Inputs\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="FEvent.h">
+      <Filter>Header Files\Inputs\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="DEvent.h">
+      <Filter>Header Files\Inputs\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EscapeEvent.h">
+      <Filter>Header Files\Inputs\Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\Game.cpp">
@@ -187,6 +232,33 @@
     </ClCompile>
     <ClCompile Include="..\common\Font.cpp">
       <Filter>Common\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="EventListener.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="EventSystem.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Listener.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="AEvent.cpp">
+      <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="DEvent.cpp">
+      <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="FEvent.cpp">
+      <Filter>Source Files\Input\Events</Filter>
+    </ClCompile>
+    <ClCompile Include="EscapeEvent.cpp">
+      <Filter>Source Files\Input\Events</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
