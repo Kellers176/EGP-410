@@ -111,6 +111,10 @@ bool Game::endLoop()
 	return mShouldExit;
 }
 
+void Game::endGame()
+{
+	mShouldExit = true;}
+
 
 float genRandomBinomial()
 {

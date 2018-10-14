@@ -37,6 +37,7 @@ public:
 	virtual void beginLoop();
 	virtual void processLoop();
 	virtual bool endLoop();
+	virtual void endGame();
 
 	inline GraphicsSystem* getGraphicsSystem() const { return mpGraphicsSystem; };
 	inline GraphicsBufferManager* getGraphicsBufferManager() const { return mpGraphicsBufferManager; };
