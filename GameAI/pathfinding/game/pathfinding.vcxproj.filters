@@ -230,5 +230,11 @@
     <ClCompile Include="AStarModeMessage.cpp">
       <Filter>Source Files\Messages</Filter>
     </ClCompile>
+    <ClCompile Include="Dijkstra.cpp">
+      <Filter>Source Files\pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="AStar.cpp">
+      <Filter>Source Files\pathfinding</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

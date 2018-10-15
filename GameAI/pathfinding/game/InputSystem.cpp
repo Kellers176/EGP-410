@@ -61,26 +61,26 @@ void InputSystem::updateKeyboard()
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 		//if escape key was down then exit the loop
-		if (state[SDL_SCANCODE_ESCAPE])
+		if (state[SDL_SCANCODE_ESCAPE] && state[SDL_KEYUP])
 		{
 			std::cout << "ESCAPE MODE ACTIVATED" << std::endl;
 			GameMessage* pMessage = new ExitMessage();
 			mpMessageManager->addMessage(pMessage, 0);
 		}
 
-		if (state[SDL_SCANCODE_A])
+		if (state[SDL_SCANCODE_A] && state[SDL_KEYUP])
 		{
 			std::cout << "ASTAR MODE ACTIVATED" << std::endl;
 			GameMessage* pMessage = new AStarModeMessage();
 			mpMessageManager->addMessage(pMessage, 0);
 		}
-		if (state[SDL_SCANCODE_D])
+		if (state[SDL_SCANCODE_D] && state[SDL_KEYUP])
 		{
 			std::cout << "DIJKSTRA MODE ACTIVATED" << std::endl;
 			GameMessage* pMessage = new DijkstraModeMessage();
 			mpMessageManager->addMessage(pMessage, 0);
 		}
-		if (state[SDL_SCANCODE_F])
+		if (state[SDL_SCANCODE_F] && state[SDL_KEYUP])
 		{
 			std::cout << "DFS MODE ACTIVATED" << std::endl;
 			GameMessage* pMessage = new DFSModeMessage();

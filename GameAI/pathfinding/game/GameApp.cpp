@@ -19,6 +19,8 @@
 #include "DebugDisplay.h"
 #include "PathfindingDebugContent.h"
 #include "InputSystem.h"
+#include "Dijkstra.h"
+#include "AStar.h"
 
 #include <SDL.h>
 #include <fstream>
@@ -65,8 +67,9 @@ bool GameApp::init()
 	//init the nodes and connections
 	mpGridGraph->init();
 
+	//CHANGE DIFFERENT MODES
 	mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
-
+	mPathType = 0;
 	//load buffers
 	mpGraphicsBufferManager->loadBuffer(mBackgroundBufferID, "wallpaper.bmp");
 
@@ -128,6 +131,8 @@ void GameApp::processLoop()
 
 	mpDebugDisplay->draw( pBackBuffer );
 
+	checkPathType();
+
 	mpInputSystem->updateKeyboard();
 
 	//should be last thing in processLoop
@@ -142,6 +147,33 @@ bool GameApp::endLoop()
 void GameApp::endGame()
 {
 	return Game::endGame();
+}
+
+inline void GameApp::checkPathType()
+{
+	mPathType = gpGame->getPathType();
+	switch (mPathType)
+	{
+	case (int)DEPTHFIRST:
+		std::cout << "Depth First Switch" << std::endl;
+		//mpPathfinder = NULL;
+		//mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
+		break;
+	case (int)DIJKSTRA:
+		std::cout << "Dijkstra Switch" << std::endl;
+		//mpPathfinder = NULL;
+		//mpPathfinder = new Dijkstra(mpGridGraph);
+		break;
+	case (int)ASTAR:
+		std::cout << "Astar Switch" << std::endl;
+		//mpPathfinder = NULL;
+		// = new AStar(mpGridGraph);
+		break;
+	default:
+		//mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
+		break;
+	}
+
 }
 
 

@@ -46,6 +46,8 @@ public:
 	inline double getCurrentTime() const { return mpMasterTimer->getElapsedTime(); };
 	inline Font* getFont() const { return mpFont; };
 	inline void markForExit() { mShouldExit = true; };
+	inline void setPathType(int var) { mPathType = var; };
+	inline int getPathType() { return mPathType; };
 
 protected:
 	GraphicsSystem* mpGraphicsSystem;
@@ -55,6 +57,7 @@ protected:
 	Timer* mpMasterTimer;
 	float mLoopTargetTime;
 	bool mShouldExit;
+	int mPathType;
 
 	//should be somewhere else
 	Font* mpFont;

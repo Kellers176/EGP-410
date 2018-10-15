@@ -126,11 +126,13 @@
     <ClCompile Include="..\common\Renderer.cpp" />
     <ClCompile Include="..\common\Sprite.cpp" />
     <ClCompile Include="..\common\SpriteManager.cpp" />
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="AStarModeMessage.cpp" />
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="DebugDisplay.cpp" />
     <ClCompile Include="DepthFirstPathfinder.cpp" />
     <ClCompile Include="DFSModeMessage.cpp" />
+    <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="DijkstraModeMessage.cpp" />
     <ClCompile Include="ExitMessage.cpp" />
     <ClCompile Include="GameApp.cpp" />

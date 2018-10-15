@@ -12,4 +12,5 @@ DijkstraModeMessage::~DijkstraModeMessage()
 void DijkstraModeMessage::process()
 {
 	//SWITCH TO DIJKSTRA MODE
+	gpGame->setPathType(1);
 }
