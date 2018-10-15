@@ -12,5 +12,6 @@ AStarModeMessage::~AStarModeMessage()
 
 void AStarModeMessage::process()
 {
+	gpGame->setDoneLoop(false);
 	gpGame->setPathType(2);
 }

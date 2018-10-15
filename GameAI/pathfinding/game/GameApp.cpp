@@ -151,27 +151,34 @@ void GameApp::endGame()
 
 inline void GameApp::checkPathType()
 {
-	mPathType = gpGame->getPathType();
-	switch (mPathType)
+	if (!gpGame->getDoneLoop())
 	{
-	case (int)DEPTHFIRST:
-		std::cout << "Depth First Switch" << std::endl;
-		//mpPathfinder = NULL;
-		//mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
-		break;
-	case (int)DIJKSTRA:
-		std::cout << "Dijkstra Switch" << std::endl;
-		//mpPathfinder = NULL;
-		//mpPathfinder = new Dijkstra(mpGridGraph);
-		break;
-	case (int)ASTAR:
-		std::cout << "Astar Switch" << std::endl;
-		//mpPathfinder = NULL;
-		// = new AStar(mpGridGraph);
-		break;
-	default:
-		//mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
-		break;
+
+		mPathType = gpGame->getPathType();
+		switch (mPathType)
+		{
+		case (int)DEPTHFIRST:
+			std::cout << "Depth First Switch" << std::endl;
+			gpGame->setDoneLoop(true);
+			/*mpPathfinder = NULL;
+			mpPathfinder = new DepthFirstPathfinder(mpGridGraph);*/
+			break;
+		case (int)DIJKSTRA:
+			std::cout << "Dijkstra Switch" << std::endl;
+			gpGame->setDoneLoop(true);
+			//mpPathfinder = NULL;
+			//mpPathfinder = new Dijkstra(mpGridGraph);
+			break;
+		case (int)ASTAR:
+			std::cout << "Astar Switch" << std::endl;
+			gpGame->setDoneLoop(true);
+			//mpPathfinder = NULL;
+			//mpPathfinder = new AStar(mpGridGraph);
+			break;
+		default:
+			//mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
+			break;
+		}
 	}
 
 }

@@ -11,5 +11,6 @@ DFSModeMessage::~DFSModeMessage()
 
 void DFSModeMessage::process()
 {
+	gpGame->setDoneLoop(false);
 	gpGame->setPathType(0);
 }

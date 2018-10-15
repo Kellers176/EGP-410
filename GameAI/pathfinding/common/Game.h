@@ -48,6 +48,8 @@ public:
 	inline void markForExit() { mShouldExit = true; };
 	inline void setPathType(int var) { mPathType = var; };
 	inline int getPathType() { return mPathType; };
+	inline void setDoneLoop(bool mybool) { mIsDoneLoop = mybool; };
+	inline bool getDoneLoop() { return mIsDoneLoop; };
 
 protected:
 	GraphicsSystem* mpGraphicsSystem;
@@ -58,6 +60,7 @@ protected:
 	float mLoopTargetTime;
 	bool mShouldExit;
 	int mPathType;
+	bool mIsDoneLoop = false;
 
 	//should be somewhere else
 	Font* mpFont;
