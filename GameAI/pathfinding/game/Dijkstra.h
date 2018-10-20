@@ -20,7 +20,6 @@ public:
 	Path* findPath(Node* pFrom, Node* pTo);//make sure to delete the path when you are done!
 
 private:
-	Path* mReturnPath;
 	struct NodeRecord : public Trackable
 	{
 		NodeRecord() : mNode(NULL), mConnection(NULL), mCostSoFar(0) {}

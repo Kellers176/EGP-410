@@ -16,7 +16,6 @@ Dijkstra::Dijkstra(Graph * pGraph)
 #ifdef VISUALIZE_PATH
 	mpPath = NULL;
 #endif
-	mReturnPath = nullptr;
 
 }
 
@@ -25,10 +24,7 @@ Dijkstra::~Dijkstra()
 #ifdef VISUALIZE_PATH
 	delete mpPath;
 #endif
-	if (mReturnPath != nullptr)
-	{
-		delete mReturnPath;
-	}
+
 }
 //returns the reverse path
 Path * Dijkstra::TakeItBackYall(Path * path)
@@ -61,6 +57,7 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 	gpPerformanceTracker->startTracking("path");
 	//allocate nodes to visit list and place starting node in it
 
+	Path* mReturnPath = new Path();
 	//initialize the record for the start node
 	NodeRecord startRecord = NodeRecord();
 	startRecord.mNode = pFrom;
@@ -69,31 +66,30 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 	//initialize the record for the end node
 	NodeRecord endRecord;
 	//create Path
-	Path* pPath = new Path();
 
 	//Initialize the open and closed lists
 	//open list where mVisitedNodes is the closed list
-	vector<Node*> mOpen;
-	mOpen.push_back(startRecord.mNode);
-	vector<Node*> mClosed;
+	list<NodeRecord> mOpen;
+	mOpen.push_front(startRecord);
+	list<NodeRecord> mClosed;
 
 #ifdef VISUALIZE_PATH
 	delete mpPath;
-	mVisitedNodes.clear();
-	mOpen.clear();
+	//mVisitedNodes.clear();
+	//mOpen.clear();
 	mClosed.clear();
-	mVisitedNodes.push_back(pFrom);
+	mVisitedNodes.clear();
+	//mVisitedNodes.push_back(pFrom);
 #endif
 	//get current node
 	NodeRecord pCurrentNode = NodeRecord();
-	
 	bool toNodeAdded = false;
 
 	//Iterate through processing each node
 	while (/*pCurrentNode != pTo && */mOpen.size() > 0)
 	{
 		//get current node from front of list
-		pCurrentNode.mNode = mOpen.front();
+		pCurrentNode = mOpen.front();
 		//remove node from list
 		//nodesToVisit.pop_front();
 		//add Node to Path
@@ -110,57 +106,76 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 			//Loop through each connection in turn
 			for (unsigned int i = 0; i < connections.size(); i++)
 			{
+				bool isInClosed = false, isInOpen = false;
 				Connection* pConnection = connections[i];
 				//get the cost estimate for the end node
 				Node* pEndNode = connections[i]->getToNode();
 				float endNodeCost = pCurrentNode.mCostSoFar + connections[i]->getCost();
 				//skip if the node is closed
-				if (find(mClosed.begin(), mClosed.end(), pEndNode) != mClosed.end())
+				/*if (find(mClosed.begin(), mClosed.end(), pEndNode) != mClosed.end())
+				{
+					continue;
+				}*/
+				for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
+				{
+					if (iter->mNode == pEndNode)
+					{
+						isInClosed = true;
+						break;
+					}
+				}
+				NodeRecord tmp = NodeRecord();
+				for (list<NodeRecord>::iterator iter = mOpen.begin(); iter != mOpen.end(); iter++)
+				{
+					if (iter->mNode == pEndNode)
+					{
+						tmp.mNode = iter->mNode;
+						tmp.mConnection = iter->mConnection;
+						tmp.mCostSoFar = iter->mCostSoFar;
+
+						isInOpen = true;
+						break;
+					}
+				}
+				//otherwise we know we've got an unvisited node, so make a record for it
+				if (isInClosed)
 				{
 					continue;
 				}
-				//or if it is open, we have found a worse route
-				else if (find(mOpen.begin(), mOpen.end(), pEndNode) != mOpen.end())
+				else if (isInOpen)
 				{
-					endRecord.mNode = pEndNode;
+					endRecord = tmp;
 					if (endRecord.mCostSoFar <= endNodeCost)
 					{
 						continue;
 					}
 				}
-				//otherwise we know we've got an unvisited node, so make a record for it
 				else
 				{
-					endRecord.mCostSoFar = endNodeCost;
+					endRecord = NodeRecord();
 					endRecord.mNode = pEndNode;
 				}
 				//we are here if we need to updatethe cost and connection
 				endRecord.mConnection = pConnection;
 				endRecord.mCostSoFar = endNodeCost;
 				//add it to the open list
-				if (find(mOpen.begin(), mOpen.end(), pEndNode) != mOpen.end())
+				if (!isInOpen)
 				{
 					//We've finished looking at the connections for the current node, 
 					//so add it to the closed list and remove it from the open list
-					mOpen.push_back(endRecord.mNode);
+					mOpen.push_back(endRecord);
 				}
+
 			}
-			
-		}
 		//# We’ve finished looking at the connections for
 		//the current node, so add it to the closed list
 		//and remove it from the open list 
-		for (int i = 0; i < mOpen.size(); i++)
-		{
-			if (mOpen[i] == pCurrentNode.mNode)
-			{
-				mOpen.erase(mOpen.begin() + i);
-				mClosed.push_back(pCurrentNode.mNode);
-				mVisitedNodes.push_back(pCurrentNode.mNode);
-				break;
-
-			}
+			mOpen.pop_front();
+			mClosed.push_back(pCurrentNode);
+			mVisitedNodes.push_back(pCurrentNode.mNode);
+			
 		}
+
 		//We are here if we've found either the goal, or
 		//if we have no more nodes to search, find which
 		if (pCurrentNode.mNode != pTo)
@@ -170,29 +185,36 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 		}
 		else
 		{
-
-			if (mReturnPath != nullptr)
-			{
-				delete mReturnPath;
-			}
-			mReturnPath = new Path();
+			Path* myPath = new Path();
 			//return the reverse path
 			while (pCurrentNode.mNode != pFrom)
 			{
-				mReturnPath->addNode(pCurrentNode.mNode);
+				myPath->addNode(pCurrentNode.mNode);
 				pCurrentNode.mNode = pCurrentNode.mConnection->getFromNode();
+				
+				for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
+				{
+					if (iter->mNode == pCurrentNode.mNode)
+					{
+						pCurrentNode.mConnection = iter->mConnection;
+						break;
+					}
+				}
 			}
-			pPath = TakeItBackYall(pPath);
-#ifdef VISUALIZE_PATH
-			mpPath = mReturnPath;
-#endif
+			for (int i = 0; i < myPath->getNumNodes(); i++)
+			{
+				mReturnPath->addNode(myPath->getAndRemoveNextNode());
+			}
+			delete myPath;
 		}
-
 	}
 	
 	gpPerformanceTracker->stopTracking("path");
 	mTimeElapsed = gpPerformanceTracker->getElapsedTime("path");
+#ifdef VISUALIZE_PATH
+			mpPath = mReturnPath;
+#endif
 
 	return mReturnPath;
-	delete mReturnPath;
+	//delete mReturnPath;
 }

@@ -132,7 +132,7 @@ void GameApp::processLoop()
 
 	mpDebugDisplay->draw( pBackBuffer );
 
-	checkPathType();
+	//checkPathType();
 
 	mpInputSystem->updateKeyboard();
 
