@@ -18,6 +18,7 @@ public:
 	int getNumNodes() const { return mNodes.size(); };
 
 	void addNode( Node* pNode );
+	void clearNodes();
 
 private:
 	std::vector<Node*> mNodes;

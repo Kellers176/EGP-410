@@ -14,6 +14,9 @@ public:
 
 	const NODE_ID& getId() const {return mId;};
 
+
 private:
 	const NODE_ID mId;
+	Node* mPreviousNode;
+	float mTotal;
 };

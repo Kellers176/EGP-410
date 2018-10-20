@@ -68,8 +68,9 @@ bool GameApp::init()
 	mpGridGraph->init();
 
 	//CHANGE DIFFERENT MODES
-	mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
-	mPathType = 0;
+	//mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
+	mpPathfinder = new Dijkstra(mpGridGraph);
+	mPathType = 1;
 	//load buffers
 	mpGraphicsBufferManager->loadBuffer(mBackgroundBufferID, "wallpaper.bmp");
 
@@ -160,14 +161,14 @@ inline void GameApp::checkPathType()
 		case (int)DEPTHFIRST:
 			std::cout << "Depth First Switch" << std::endl;
 			gpGame->setDoneLoop(true);
-			/*mpPathfinder = NULL;
-			mpPathfinder = new DepthFirstPathfinder(mpGridGraph);*/
+			//mpPathfinder = NULL;
+			mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
 			break;
 		case (int)DIJKSTRA:
 			std::cout << "Dijkstra Switch" << std::endl;
 			gpGame->setDoneLoop(true);
 			//mpPathfinder = NULL;
-			//mpPathfinder = new Dijkstra(mpGridGraph);
+			mpPathfinder = new Dijkstra(mpGridGraph);
 			break;
 		case (int)ASTAR:
 			std::cout << "Astar Switch" << std::endl;

@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Pathfinder.h"
+
+using namespace std;
+
 class GridGraph;
 class GridVisualizer;
 class GraphicsBuffer;
@@ -21,7 +24,7 @@ public:
 public:
 	void drawVisualization( Grid* pGrid, GraphicsBuffer* pDest );
 protected:
-	std::vector<Node*> mVisitedNodes;
+	vector<Node*> mVisitedNodes;
 	Path* mpPath;
 	GridVisualizer* mpVisualizer;
 #endif

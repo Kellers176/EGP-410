@@ -51,6 +51,11 @@ void Path::addNode( Node* pNode )
 	mNodes.push_back( pNode );
 }
 
+void Path::clearNodes()
+{
+	mNodes.clear();
+}
+
 bool Path::containsNode( Node* pNode )
 {
 	bool retVal = false;

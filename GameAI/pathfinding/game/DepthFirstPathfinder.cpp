@@ -39,7 +39,7 @@ Path* DepthFirstPathfinder::findPath( Node* pFrom, Node* pTo )
 	mVisitedNodes.clear();
 	mVisitedNodes.push_back( pFrom );
 #endif
-	
+	//mpPath->clearNodes();
 	//create Path
 	Path* pPath = new Path();
 

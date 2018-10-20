@@ -69,8 +69,6 @@ void GridPathfinder::drawVisualization( Grid* pGrid, GraphicsBuffer* pDest )
 			float lerpVal = lerp(i, 0, numNodes);
 			currentPathColor = Color((int)(255 * (1.0f - lerpVal)), currentPathColor.getG(), currentPathColor.getB());
 		}
-
-
 		//add beginning and ending color
 		mpVisualizer->addColor(mpPath->peekNode(0)->getId(), startColor);
 		mpVisualizer->addColor( mpPath->peekNode( mpPath->getNumNodes()-1 )->getId(), stopColor );
