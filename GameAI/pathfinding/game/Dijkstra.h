@@ -16,7 +16,6 @@ public:
 	Dijkstra(Graph* pGraph);
 	~Dijkstra();
 
-	Path* TakeItBackYall(Path* path);
 	Path* findPath(Node* pFrom, Node* pTo);//make sure to delete the path when you are done!
 
 private:

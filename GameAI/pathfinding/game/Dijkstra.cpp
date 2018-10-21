@@ -26,30 +26,7 @@ Dijkstra::~Dijkstra()
 #endif
 
 }
-//returns the reverse path
-Path * Dijkstra::TakeItBackYall(Path * path)
-{
-	Path* tmpPath = new Path();
 
-	for (int i = 0; i < path->getNumNodes(); i++)
-	{
-		Node* newestNode;
-		int lastIndex;
-
-		lastIndex = path->getNumNodes() - (i + 1);
-		newestNode = path->peekNode(lastIndex);
-
-		tmpPath->addNode(newestNode);
-	}
-	if (tmpPath->getNumNodes() > 0)
-	{
-		return tmpPath;
-	}
-	else
-	{
-		return NULL;
-	}
-}
 
 Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 {
