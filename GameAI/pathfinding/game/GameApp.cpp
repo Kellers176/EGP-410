@@ -69,7 +69,7 @@ bool GameApp::init()
 
 	//CHANGE DIFFERENT MODES
 	//mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
-	mpPathfinder = new Dijkstra(mpGridGraph);
+	mpPathfinder = new AStar(mpGridGraph);
 	//mPathType = 1;
 	//load buffers
 	mpGraphicsBufferManager->loadBuffer(mBackgroundBufferID, "wallpaper.bmp");
