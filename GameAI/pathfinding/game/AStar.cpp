@@ -64,7 +64,6 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 
 	Path* mReturnPath = new Path();
 	//get current node
-	float endNodeHeuristic = 0;
 	NodeRecord pCurrentNode;// = NodeRecord();
 	bool toNodeAdded = false;
 
@@ -91,18 +90,23 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 			//Loop through each connection in turn
 			for (unsigned int i = 0; i < connections.size(); i++)
 			{
-				endNodeHeuristic = 0;
-				bool isInClosed = false, isInOpen = false, check = false;
+				float endNodeHeuristic; 
+				bool isInClosed = false, isInOpen = false, isVisited = false, check = false;
 				Connection* pConnection = connections[i];
 				NodeRecord endRecord;
 				//get the cost estimate for the end node
 				Node* pEndNode = connections[i]->getToNode();
 				float endNodeCost = pCurrentNode.mCostSoFar + connections[i]->getCost();
 				//skip if the node is closed
-				/*if (find(mClosed.begin(), mClosed.end(), pEndNode) != mClosed.end())
+				vector<Node*>::iterator memberLocation;
+				for (memberLocation = mVisitedNodes.begin(); memberLocation != mVisitedNodes.end(); memberLocation++)
 				{
-				continue;
-				}*/
+					if ((*memberLocation) == pEndNode)
+					{
+						isVisited = true;
+						break;
+					}
+				}
 				list<NodeRecord>::iterator closed;
 				for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
 				{
@@ -134,6 +138,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 					}
 					else
 					{
+						mVisitedNodes.erase(memberLocation);
 						mClosed.erase(closed);
 						endNodeHeuristic = getHeuristic(endRecord.mNode, pTo);
 					}
@@ -152,7 +157,6 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 				}
 				else
 				{
-
 					endRecord = NodeRecord(pEndNode, pConnection, endNodeCost);
 					endNodeHeuristic = getHeuristic(pEndNode, pTo);
 				}
@@ -205,7 +209,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 		//Weve run out of nodes without finding the goal, so no solution
 		return NULL;
 	}
-
+	else
 	{
 
 		//Path* myPath = new Path();
@@ -236,7 +240,6 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 	return mReturnPath;
 	//delete mReturnPath;
 
-	return NULL;
 }
 
 float AStar::getHeuristic(Node * pFrom, Node * pTo)
