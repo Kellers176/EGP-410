@@ -64,7 +64,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 
 	Path* mReturnPath = new Path();
 	//get current node
-	
+	float endNodeHeuristic = 0;
 	NodeRecord pCurrentNode;// = NodeRecord();
 	bool toNodeAdded = false;
 
@@ -72,12 +72,13 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 	while (/*pCurrentNode != pTo && */mOpen.size() > 0)
 	{
 		//get current node from front of list
-		pCurrentNode = mOpen.front();
+		//chang to smallest element
+		//pCurrentNode.mNode = getSmallestElement(mOpen, endNodeHeuristic);
 		//remove node from list
-		mOpen.pop_front();
+		//mOpen.pop_front();
 		//mReturnPath->addNode(pCurrentNode.mNode);
 		//add Node to Path
-
+		//mReturnPath->addNode(pCurrentNode.mNode);
 		if (pCurrentNode.mNode == pTo)
 		{
 			break;
@@ -86,10 +87,10 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 		{
 			//get the Connections for the current node
 			vector<Connection*> connections = mpGraph->getConnections(pCurrentNode.mNode->getId());
-			float endNodeHeuristic = 0;
 			//Loop through each connection in turn
 			for (unsigned int i = 0; i < connections.size(); i++)
 			{
+				endNodeHeuristic = 0;
 				bool isInClosed = false, isInOpen = false, check = false;
 				Connection* pConnection = connections[i];
 				NodeRecord endRecord;
@@ -132,8 +133,8 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 					}
 					else
 					{
-						mClosed.push_back(endRecord);
-						endNodeHeuristic = endRecord.mEstimatedTotalCost - endRecord.mEstimatedTotalCost;
+						mClosed.erase(closed);
+						endNodeHeuristic = getHeuristic(endRecord.mNode, pTo);
 					}
 				}
 				else if (isInOpen)
@@ -145,7 +146,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 					}
 					else
 					{
-						endNodeHeuristic = pCurrentNode.mCostSoFar - endRecord.mCostSoFar;
+						endNodeHeuristic = getHeuristic(endRecord.mNode, pTo);
 					}
 				}
 				else
@@ -190,7 +191,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 #ifdef VISUALIZE_PATH
 			mVisitedNodes.push_back(pCurrentNode.mNode);
 #endif
-
+			mClosed.push_back(pCurrentNode);
 
 		}
 	}
@@ -205,6 +206,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 	}
 
 	{
+
 		//Path* myPath = new Path();
 		//return the reverse path
 		while (pCurrentNode.mNode != pFrom)
@@ -233,17 +235,6 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 	return mReturnPath;
 	//delete mReturnPath;
 
-
-
-
-
-
-
-
-
-
-
-
 	return NULL;
 }
 
@@ -255,3 +246,19 @@ float AStar::getHeuristic(Node * pFrom, Node * pTo)
 
 	return distance.getLength();
 }
+
+Node* AStar::getSmallestElement(list<NodeRecord>& myList, float estimatedCost)
+{
+	list<NodeRecord>::iterator lowestCost;
+	for (list<NodeRecord>::iterator iter = myList.begin(); iter != myList.end(); iter++)
+	{
+		if (iter->mCostSoFar < estimatedCost)
+		{
+			lowestCost->mNode = iter->mNode;
+			return lowestCost->mNode;
+			break;
+		}
+	}
+	
+}
+
