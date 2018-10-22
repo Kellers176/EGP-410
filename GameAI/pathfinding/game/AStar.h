@@ -26,7 +26,10 @@ private:
 		int mEstimatedTotalCost;
 
 	};
-	NodeRecord getSmallestElement(list<NodeRecord> myList);
+	NodeRecord getSmallestElement(list<NodeRecord>& myList);
+	bool contains(Node* myNode, list<NodeRecord>& myList);
+	NodeRecord find(Node* myNode, list<NodeRecord>& myList);
+	void remove(NodeRecord myRecord, list<NodeRecord>& myList);
 public:
 	AStar(Graph* pGraph);
 	~AStar();

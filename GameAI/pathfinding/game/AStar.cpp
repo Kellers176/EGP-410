@@ -75,7 +75,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 		pCurrentNode = getSmallestElement(mOpen);
 		//pCurrentNode.mNode = getSmallestElement(mOpen, endNodeHeuristic);
 		//remove node from list
-		mOpen.pop_front();
+		//mOpen.pop_front();
 		//mReturnPath->addNode(pCurrentNode.mNode);
 		//add Node to Path
 		//mReturnPath->addNode(pCurrentNode.mNode);
@@ -97,55 +97,28 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 				//get the cost estimate for the end node
 				Node* pEndNode = connections[i]->getToNode();
 				float endNodeCost = pCurrentNode.mCostSoFar + connections[i]->getCost();
-				//skip if the node is closed
-				vector<Node*>::iterator memberLocation;
-				for (memberLocation = mVisitedNodes.begin(); memberLocation != mVisitedNodes.end(); memberLocation++)
-				{
-					if ((*memberLocation) == pEndNode)
-					{
-						isVisited = true;
-						break;
-					}
-				}
-				list<NodeRecord>::iterator closed;
-				for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
-				{
-					if (iter->mNode == pEndNode)
-					{
-						closed = iter;
-						isInClosed = true;
-						break;
-					}
-				}
-				list<NodeRecord>::iterator tmp;
-				for (list<NodeRecord>::iterator iter = mOpen.begin(); iter != mOpen.end(); iter++)
-				{
-					if (iter->mNode == pEndNode)
-					{
-						tmp = iter;
 
-						isInOpen = true;
-						break;
-					}
-				}
+				//make into a function
+				//contains
+
 				//otherwise we know we've got an unvisited node, so make a record for it
-				if (isInClosed)
+				if (contains(pEndNode, mClosed))
 				{
-					endRecord.mNode = closed->mNode;
+					endRecord = find(pEndNode, mClosed);
 					if (endRecord.mCostSoFar <= endNodeCost)
 					{
 						continue;
 					}
 					else
 					{
-						mVisitedNodes.erase(memberLocation);
-						mClosed.erase(closed);
+						//mVisitedNodes.erase(memberLocation);
+						remove(endRecord, mClosed);
 						endNodeHeuristic = getHeuristic(endRecord.mNode, pTo);
 					}
 				}
-				else if (isInOpen)
+				else if (contains(pEndNode, mOpen))
 				{
-					endRecord.mNode = tmp->mNode;
+					endRecord = find(pEndNode, mOpen);
 					if (endRecord.mCostSoFar <= endNodeCost)
 					{
 						continue;
@@ -166,77 +139,56 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 				endRecord.mEstimatedTotalCost = endNodeCost + endNodeHeuristic;
 
 				//add it to the open list
-				if (!isInOpen && !check)
+				if (!contains(pEndNode, mOpen) /*&& !check*/)
 				{
 					//We've finished looking at the connections for the current node, 
 					//so add it to the closed list and remove it from the open list
 					mOpen.push_back(endRecord);
-					if (endRecord.mNode == pTo)
+					/*if (endRecord.mNode == pTo)
 					{
 						check = true;
-					}
+					}*/
+				}
 #ifdef VISUALIZE_PATH
 					mVisitedNodes.push_back(endRecord.mNode);
 #endif
-					mClosed.push_back(endRecord);
-				}
-
 			}
-			//# We’ve finished looking at the connections for
-			//the current node, so add it to the closed list
-			//and remove it from the open list 
-			for (list<NodeRecord>::iterator iter = mOpen.begin(); iter != mOpen.end(); iter++)
-			{
-				if (iter->mNode == pCurrentNode.mNode)
-				{
-					mOpen.erase(iter);
-					break;
-				}
-			}
-#ifdef VISUALIZE_PATH
-			mVisitedNodes.push_back(pCurrentNode.mNode);
-#endif
+			remove(pCurrentNode, mClosed);
 			mClosed.push_back(pCurrentNode);
 
 		}
 	}
-	gpPerformanceTracker->stopTracking("path");
-	mTimeElapsed = gpPerformanceTracker->getElapsedTime("path");
 	//We are here if we've found either the goal, or
 	//if we have no more nodes to search, find which
 	if (pCurrentNode.mNode != pTo)
 	{
 		//Weve run out of nodes without finding the goal, so no solution
-		return NULL;
+		//return NULL;
 	}
 	else
 	{
-
+		NodeRecord tmp = pCurrentNode;
 		//Path* myPath = new Path();
 		//return the reverse path
-		while (pCurrentNode.mNode != pFrom)
+		while (tmp.mNode != pFrom)
 		{
-			mReturnPath->addNode(pCurrentNode.mNode);
-			pCurrentNode.mNode = pCurrentNode.mConnection->getFromNode();
+			mReturnPath->addNode(tmp.mNode);
+			//tmp.mNode = tmp.mConnection->getFromNode();
+			tmp = find(tmp.mConnection->getFromNode(), mClosed);
 
-			for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
-			{
-				if (iter->mNode == pCurrentNode.mNode)
-				{
-					pCurrentNode.mConnection = iter->mConnection;
-					break;
-				}
-			}
 		}
+		mReturnPath->addNode(pFrom);
 		//delete myPath;
 	}
-
+	if (mReturnPath->getNumNodes() == 0)
+	{
+		mReturnPath->addNode(pFrom);
+	}
+	gpPerformanceTracker->stopTracking("path");
+	mTimeElapsed = gpPerformanceTracker->getElapsedTime("path");
 #ifdef VISUALIZE_PATH
 	mpPath = mReturnPath;
 #endif
-
-
-
 	return mReturnPath;
 	//delete mReturnPath;
 
@@ -245,13 +197,12 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 float AStar::getHeuristic(Node * pFrom, Node * pTo)
 {
 	Grid* pGrid = dynamic_cast<GameApp*>(gpGame)->getGrid();
-	Vector2D distance = pGrid->getULCornerOfSquare(pFrom->getId());
-	pGrid->getULCornerOfSquare(pTo->getId());
+	Vector2D distance = pGrid->getULCornerOfSquare(pTo->getId()) - pGrid->getULCornerOfSquare(pFrom->getId());
 
 	return distance.getLength();
 }
 
-AStar::NodeRecord AStar::getSmallestElement(list<NodeRecord> myList)
+AStar::NodeRecord AStar::getSmallestElement(list<NodeRecord>& myList)
 {
 	float lowest = INFINITY;
 	list<NodeRecord>::iterator lowestCost = myList.begin();
@@ -265,5 +216,45 @@ AStar::NodeRecord AStar::getSmallestElement(list<NodeRecord> myList)
 		}
 	}
 	return (*lowestCost);
+}
+
+bool AStar::contains(Node * myNode, list<NodeRecord>& myList)
+{
+	list<NodeRecord>::iterator closed;
+	for (list<NodeRecord>::iterator iter = myList.begin(); iter != myList.end(); iter++)
+	{
+		if (iter->mNode == myNode)
+		{
+			closed = iter;
+			return true;
+		}
+	}
+	return false;
+}
+
+AStar::NodeRecord AStar::find(Node * myNode, list<NodeRecord>& myList)
+{
+	list<NodeRecord>::iterator closed;
+	for (list<NodeRecord>::iterator iter = myList.begin(); iter != myList.end(); iter++)
+	{
+		if (iter->mNode == myNode)
+		{
+			closed = iter;
+			return *closed;
+		}
+	}
+	//would technically return something
+}
+
+void AStar::remove(NodeRecord myRecord, list<NodeRecord>& myList)
+{
+	list<NodeRecord>::iterator closed;
+	for (list<NodeRecord>::iterator iter = myList.begin(); iter != myList.end(); iter++)
+	{
+		if ((*iter).mNode == myRecord.mNode && ((*iter).mConnection == myRecord.mConnection) && ((*iter).mCostSoFar == myRecord.mCostSoFar) && ((*iter).mEstimatedTotalCost == myRecord.mEstimatedTotalCost))
+		{
+			myList.erase(iter);
+		}
+	}
 }
 
