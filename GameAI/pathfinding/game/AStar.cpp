@@ -250,7 +250,7 @@ AStar::NodeRecord AStar::getSmallestElement(list<NodeRecord> myList)
 	list<NodeRecord>::iterator lowestCost = myList.begin();
 	for (list<NodeRecord>::iterator iter = myList.begin(); iter != myList.end(); iter++)
 	{
-		if (iter->mCostSoFar < lowest)
+		if (iter->mCostSoFar > lowest)
 		{
 			lowest = iter->mEstimatedTotalCost;
 			lowestCost = iter;
