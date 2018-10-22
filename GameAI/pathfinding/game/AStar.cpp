@@ -74,6 +74,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 		//get current node from front of list
 		//chang to smallest element
 		pCurrentNode = getSmallestElement(mOpen);
+		//pCurrentNode.mNode = getSmallestElement(mOpen, endNodeHeuristic);
 		//remove node from list
 		mOpen.pop_front();
 		//mReturnPath->addNode(pCurrentNode.mNode);
@@ -257,7 +258,7 @@ AStar::NodeRecord AStar::getSmallestElement(list<NodeRecord> myList)
 		{
 			lowest = iter->mEstimatedTotalCost;
 			lowestCost = iter;
-			
+
 		}
 	}
 	return (*lowestCost);
