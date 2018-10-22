@@ -2,6 +2,7 @@
 
 #include "GridPathfinder.h"
 #include <vector>
+#include <list>
 using namespace std;
 
 class Path;
@@ -32,4 +33,6 @@ private:
 		int mEstimatedTotalCost;
 
 	};
+
+	NodeRecord getSmallestElement(list<NodeRecord> myList);
 };
