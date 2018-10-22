@@ -4,10 +4,6 @@
 #include "Node.h"
 #include <vector>
 #include <list>
-<<<<<<< HEAD
-=======
-
->>>>>>> 8c686fda37813f63ba6299684d0ea171abb71368
 using namespace std;
 
 class Path;
