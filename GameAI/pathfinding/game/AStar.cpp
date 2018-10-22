@@ -75,7 +75,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 		pCurrentNode = getSmallestElement(mOpen);
 		//pCurrentNode.mNode = getSmallestElement(mOpen, endNodeHeuristic);
 		//remove node from list
-		mOpen.pop_front();
+		//mOpen.pop_front();
 		//mReturnPath->addNode(pCurrentNode.mNode);
 		//add Node to Path
 		//mReturnPath->addNode(pCurrentNode.mNode);
@@ -166,20 +166,17 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 				endRecord.mEstimatedTotalCost = endNodeCost + endNodeHeuristic;
 
 				//add it to the open list
-				if (!isInOpen && !check)
+				if (!isInOpen)
 				{
 					//We've finished looking at the connections for the current node, 
 					//so add it to the closed list and remove it from the open list
 					mOpen.push_back(endRecord);
-					if (endRecord.mNode == pTo)
-					{
-						check = true;
-					}
+					
+				}
 #ifdef VISUALIZE_PATH
 					mVisitedNodes.push_back(endRecord.mNode);
 #endif
-					mClosed.push_back(endRecord);
-				}
+					mClosed.push_front(endRecord);
 
 			}
 			//# We’ve finished looking at the connections for
@@ -193,10 +190,6 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 					break;
 				}
 			}
-#ifdef VISUALIZE_PATH
-			mVisitedNodes.push_back(pCurrentNode.mNode);
-#endif
-			mClosed.push_back(pCurrentNode);
 
 		}
 	}
