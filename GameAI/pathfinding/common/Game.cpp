@@ -40,6 +40,7 @@ bool Game::init()
 	srand((UINT)time(0));//seed random number generator
 
 	mShouldExit = false;
+	mShouldCheck = false;
 
 	//create Timers
 	mpLoopTimer = new Timer;

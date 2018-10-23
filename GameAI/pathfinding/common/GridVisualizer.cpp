@@ -17,7 +17,7 @@ GridVisualizer::~GridVisualizer()
 
 void GridVisualizer::refresh()
 {
-	const Color& color = BLACK_COLOR; 
+	const Color& color = BLACK_COLOR;
 	if( mDirty )
 	{
 		//remove old entries first

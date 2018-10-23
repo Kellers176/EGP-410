@@ -50,6 +50,8 @@ public:
 	inline int getPathType() { return mPathType; };
 	inline void setDoneLoop(bool mybool) { mIsDoneLoop = mybool; };
 	inline bool getDoneLoop() { return mIsDoneLoop; };
+	inline void setShouldCheck(bool myCheck) { mShouldCheck = myCheck; };
+	inline bool getShouldCheck() { return mShouldCheck; };
 
 protected:
 	GraphicsSystem* mpGraphicsSystem;
@@ -61,6 +63,7 @@ protected:
 	bool mShouldExit;
 	int mPathType;
 	bool mIsDoneLoop = false;
+	bool mShouldCheck = false;
 
 	//should be somewhere else
 	Font* mpFont;

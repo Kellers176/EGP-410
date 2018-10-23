@@ -68,9 +68,8 @@ bool GameApp::init()
 	mpGridGraph->init();
 
 	//CHANGE DIFFERENT MODES
-	//mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
-	mpPathfinder = new AStar(mpGridGraph);
-	//mPathType = 1;
+	mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
+	mPathType = 1;
 	//load buffers
 	mpGraphicsBufferManager->loadBuffer(mBackgroundBufferID, "wallpaper.bmp");
 
@@ -132,7 +131,11 @@ void GameApp::processLoop()
 
 	mpDebugDisplay->draw( pBackBuffer );
 
-	//checkPathType();
+	//check if should be updated
+	if (gpGame->getShouldCheck())
+	{
+		checkPathType();
+	}
 
 	mpInputSystem->updateKeyboard();
 
@@ -156,30 +159,36 @@ inline void GameApp::checkPathType()
 	{
 
 		mPathType = gpGame->getPathType();
+		if (mpPathfinder)
+		{
+			delete mpPathfinder;
+		}
 		switch (mPathType)
 		{
 		case (int)DEPTHFIRST:
-			std::cout << "Depth First Switch" << std::endl;
 			gpGame->setDoneLoop(true);
-			//mpPathfinder = NULL;
 			mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
 			break;
 		case (int)DIJKSTRA:
-			std::cout << "Dijkstra Switch" << std::endl;
 			gpGame->setDoneLoop(true);
-			//mpPathfinder = NULL;
 			mpPathfinder = new Dijkstra(mpGridGraph);
 			break;
 		case (int)ASTAR:
-			std::cout << "Astar Switch" << std::endl;
 			gpGame->setDoneLoop(true);
-			//mpPathfinder = NULL;
-			//mpPathfinder = new AStar(mpGridGraph);
+			mpPathfinder = new AStar(mpGridGraph);
 			break;
 		default:
-			//mpPathfinder = new DepthFirstPathfinder(mpGridGraph);
 			break;
 		}
+		if (mpDebugDisplay)
+		{
+			delete mpDebugDisplay;
+		}
+
+		PathfindingDebugContent* pCurrent = new PathfindingDebugContent(mpPathfinder);
+		mpDebugDisplay = new DebugDisplay(Vector2D(0, 12), pCurrent);
+
+		gpGame->setShouldCheck(false);
 	}
 
 }

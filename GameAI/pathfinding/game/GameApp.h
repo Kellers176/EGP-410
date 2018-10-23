@@ -47,6 +47,7 @@ public:
 	inline Grid* getGrid() { return mpGrid; };
 	inline GridGraph* getGridGraph() { return mpGridGraph; };
 	inline void checkPathType();
+	
 
 private:
 	GameMessageManager* mpMessageManager;

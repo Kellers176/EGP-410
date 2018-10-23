@@ -8,7 +8,7 @@
 /*Author: Kelly Herstine
 Class: EGP-410
 <Section 01>
-Assignment: Assignment2
+Assignment: Assignment3
 Certification of Authenticity:
 I certify that this assignment is entirely my own work.*/
 
@@ -54,8 +54,6 @@ void InputSystem::updateKeyboard()
 		}
 	}
 
-	//get input - should be moved someplace better
-	//all this should be moved to InputManager!!!
 	{
 		//get keyboard state
 		const Uint8 *state = SDL_GetKeyboardState(NULL);
@@ -63,26 +61,25 @@ void InputSystem::updateKeyboard()
 		//if escape key was down then exit the loop
 		if (state[SDL_SCANCODE_ESCAPE] && state[SDL_KEYUP])
 		{
-			std::cout << "ESCAPE MODE ACTIVATED" << std::endl;
 			GameMessage* pMessage = new ExitMessage();
 			mpMessageManager->addMessage(pMessage, 0);
 		}
 
 		if (state[SDL_SCANCODE_A] && state[SDL_KEYUP])
 		{
-			std::cout << "ASTAR MODE ACTIVATED" << std::endl;
+			gpGame->setShouldCheck(true);
 			GameMessage* pMessage = new AStarModeMessage();
 			mpMessageManager->addMessage(pMessage, 0);
 		}
 		if (state[SDL_SCANCODE_D] && state[SDL_KEYUP])
 		{
-			std::cout << "DIJKSTRA MODE ACTIVATED" << std::endl;
+			gpGame->setShouldCheck(true);
 			GameMessage* pMessage = new DijkstraModeMessage();
 			mpMessageManager->addMessage(pMessage, 0);
 		}
 		if (state[SDL_SCANCODE_F] && state[SDL_KEYUP])
 		{
-			std::cout << "DFS MODE ACTIVATED" << std::endl;
+			gpGame->setShouldCheck(true);
 			GameMessage* pMessage = new DFSModeMessage();
 			mpMessageManager->addMessage(pMessage, 0);
 		}

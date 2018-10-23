@@ -7,9 +7,13 @@
 #include "GameApp.h"
 #include "Vector2D.h"
 #include <PerformanceTracker.h>
-#include <list>
-#include <vector>
 #include <algorithm>
+/*Author: Kelly Herstine
+Class: EGP-410
+<Section 01>
+Assignment: Assignment3
+Certification of Authenticity:
+I certify that this assignment is entirely my own work.*/
 
 using namespace std;
 
@@ -37,18 +41,12 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 	gpPerformanceTracker->startTracking("path");
 	//allocate nodes to visit list and place starting node in it
 
-	cout << pFrom->getId() << endl;
-	cout << pTo->getId() << endl;
 	NodeRecord startRecord = NodeRecord();
 	//initialize the record for the start node
 	startRecord.mNode = pFrom;
 	startRecord.mConnection = NULL;
 	startRecord.mCostSoFar = 0;
 	startRecord.mEstimatedTotalCost = getHeuristic(pFrom, pTo);
-
-	//initialize the record for the end node
-
-	//create Path
 
 	//Initialize the open and closed lists
 	//open list where mVisitedNodes is the closed list
@@ -64,21 +62,14 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 
 	Path* mReturnPath = new Path();
 	//get current node
-	NodeRecord pCurrentNode;// = NodeRecord();
+	NodeRecord pCurrentNode;
 	bool toNodeAdded = false;
 
 	//Iterate through processing each node
-	while (/*pCurrentNode != pTo && */mOpen.size() > 0)
+	while (mOpen.size() > 0)
 	{
-		//get current node from front of list
-		//chang to smallest element
+		//get current node from smallest element
 		pCurrentNode = getSmallestElement(mOpen);
-		//pCurrentNode.mNode = getSmallestElement(mOpen, endNodeHeuristic);
-		//remove node from list
-		//mOpen.pop_front();
-		//mReturnPath->addNode(pCurrentNode.mNode);
-		//add Node to Path
-		//mReturnPath->addNode(pCurrentNode.mNode);
 		if (pCurrentNode.mNode == pTo)
 		{
 			break;
@@ -90,6 +81,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 			//Loop through each connection in turn
 			for (unsigned int i = 0; i < connections.size(); i++)
 			{
+				//set variables and connections
 				float endNodeHeuristic; 
 				bool isInClosed = false, isInOpen = false, isVisited = false, check = false;
 				Connection* pConnection = connections[i];
@@ -97,16 +89,18 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 				//get the cost estimate for the end node
 				Node* pEndNode = connections[i]->getToNode();
 				float endNodeCost = pCurrentNode.mCostSoFar + connections[i]->getCost();
-				//skip if the node is closed
-				vector<Node*>::iterator memberLocation;
-				for (memberLocation = mVisitedNodes.begin(); memberLocation != mVisitedNodes.end(); memberLocation++)
+
+				//assign it also in the closed list so that the graph can display the nodes
+				vector<Node*>::iterator temp;
+				for (temp = mVisitedNodes.begin(); temp != mVisitedNodes.end(); temp++)
 				{
-					if ((*memberLocation) == pEndNode)
+					if ((*temp) == pEndNode)
 					{
 						isVisited = true;
 						break;
 					}
 				}
+				//check if in closed list
 				list<NodeRecord>::iterator closed;
 				for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
 				{
@@ -117,6 +111,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 						break;
 					}
 				}
+				//check if in open list
 				list<NodeRecord>::iterator tmp;
 				for (list<NodeRecord>::iterator iter = mOpen.begin(); iter != mOpen.end(); iter++)
 				{
@@ -131,6 +126,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 				//otherwise we know we've got an unvisited node, so make a record for it
 				if (isInClosed)
 				{
+					//set endRecord to the closed node that we found
 					endRecord.mNode = closed->mNode;
 					if (endRecord.mCostSoFar <= endNodeCost)
 					{
@@ -138,13 +134,15 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 					}
 					else
 					{
-						mVisitedNodes.erase(memberLocation);
+						//erase it from the closed list and then get the heusitic
+						mVisitedNodes.erase(temp);
 						mClosed.erase(closed);
 						endNodeHeuristic = getHeuristic(endRecord.mNode, pTo);
 					}
 				}
 				else if (isInOpen)
 				{
+					//set endRecord to the open node that we found
 					endRecord.mNode = tmp->mNode;
 					if (endRecord.mCostSoFar <= endNodeCost)
 					{
@@ -152,20 +150,22 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 					}
 					else
 					{
+						//update the heuristic
 						endNodeHeuristic = getHeuristic(endRecord.mNode, pTo);
 					}
 				}
 				else
 				{
+					//otherwise create a new instance of the endRecord from our PEndNode and update herusitic
 					endRecord = NodeRecord(pEndNode, pConnection, endNodeCost);
 					endNodeHeuristic = getHeuristic(pEndNode, pTo);
 				}
-
+				//update values for the endRecord
 				endRecord.mCostSoFar = endNodeCost;
 				endRecord.mConnection = pConnection;
 				endRecord.mEstimatedTotalCost = endNodeCost + endNodeHeuristic;
 
-				//add it to the open list
+				//check if in the open list
 				if (!isInOpen)
 				{
 					//We've finished looking at the connections for the current node, 
@@ -204,8 +204,6 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 	}
 	else
 	{
-
-		//Path* myPath = new Path();
 		//return the reverse path
 		while (pCurrentNode.mNode != pFrom)
 		{
@@ -221,7 +219,6 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 				}
 			}
 		}
-		//delete myPath;
 	}
 
 #ifdef VISUALIZE_PATH
@@ -231,8 +228,6 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 
 
 	return mReturnPath;
-	//delete mReturnPath;
-
 }
 
 float AStar::getHeuristic(Node * pFrom, Node * pTo)

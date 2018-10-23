@@ -5,8 +5,13 @@
 #include "Game.h"
 #include <PerformanceTracker.h>
 #include <list>
-#include <vector>
 #include <algorithm>
+/*Author: Kelly Herstine
+Class: EGP-410
+<Section 01>
+Assignment: Assignment3
+Certification of Authenticity:
+I certify that this assignment is entirely my own work.*/
 
 using namespace std;
 
@@ -34,16 +39,11 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 	gpPerformanceTracker->startTracking("path");
 	//allocate nodes to visit list and place starting node in it
 
-	cout << pFrom->getId() << endl;
-	cout << pTo->getId() << endl;
 	//initialize the record for the start node
 	NodeRecord startRecord = NodeRecord();
 	startRecord.mNode = pFrom;
 	startRecord.mConnection = NULL;
 	startRecord.mCostSoFar = 0;
-	//initialize the record for the end node
-
-	//create Path
 
 	//Initialize the open and closed lists
 	//open list where mVisitedNodes is the closed list
@@ -53,28 +53,24 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 
 #ifdef VISUALIZE_PATH
 	delete mpPath;
-	//mVisitedNodes.clear();
-	//mOpen.clear();
-	//mClosed.clear();
 	mVisitedNodes.clear();
 	mVisitedNodes.push_back(pFrom);
 #endif
 
 	Path* mReturnPath = new Path();
 	//get current node
-	NodeRecord pCurrentNode;// = NodeRecord();
+	NodeRecord pCurrentNode;
 	bool toNodeAdded = false;
 
 	//Iterate through processing each node
-	while (/*pCurrentNode != pTo && */mOpen.size() > 0)
+	while (mOpen.size() > 0)
 	{
 		//get current node from front of list
 		pCurrentNode = mOpen.front();
 		//remove node from list
 		mOpen.pop_front();
-		//mReturnPath->addNode(pCurrentNode.mNode);
-		//add Node to Path
 
+		//check if we are already there
 		if (pCurrentNode.mNode == pTo)
 		{
 			break;
@@ -87,17 +83,15 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 			//Loop through each connection in turn
 			for (unsigned int i = 0; i < connections.size(); i++)
 			{
+				//create endRecord for list and also get current connections
 				bool isInClosed = false, isInOpen = false, check = false;
 				Connection* pConnection = connections[i];
 				NodeRecord endRecord;
 				//get the cost estimate for the end node
 				Node* pEndNode = connections[i]->getToNode();
 				float endNodeCost = pCurrentNode.mCostSoFar + connections[i]->getCost();
-				//skip if the node is closed
-				/*if (find(mClosed.begin(), mClosed.end(), pEndNode) != mClosed.end())
-				{
-					continue;
-				}*/
+
+				//check if node is in the open or closed list
 				for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
 				{
 					if (iter->mNode == pEndNode)
@@ -112,15 +106,12 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 					if (iter->mNode == pEndNode)
 					{
 						tmp = iter;
-						//tmp.mNode = iter->mNode;
-						//tmp.mConnection = iter->mConnection;
-						//tmp.mCostSoFar = iter->mCostSoFar;
-
 						isInOpen = true;
 						break;
 					}
 				}
-				//otherwise we know we've got an unvisited node, so make a record for it
+
+				//Do calculations based on if inside different lists
 				if (isInClosed)
 				{
 					continue;
@@ -181,33 +172,26 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 			//Weve run out of nodes without finding the goal, so no solution
 			return NULL;
 		}
-	
+		//return the reverse path
+		while (pCurrentNode.mNode != pFrom)
 		{
-			//Path* myPath = new Path();
-			//return the reverse path
-			while (pCurrentNode.mNode != pFrom)
-			{
-				mReturnPath->addNode(pCurrentNode.mNode);
-				pCurrentNode.mNode = pCurrentNode.mConnection->getFromNode();
+			mReturnPath->addNode(pCurrentNode.mNode);
+			pCurrentNode.mNode = pCurrentNode.mConnection->getFromNode();
 
-				for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
+			for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
+			{
+				if (iter->mNode == pCurrentNode.mNode)
 				{
-					if (iter->mNode == pCurrentNode.mNode)
-					{
-						pCurrentNode.mConnection = iter->mConnection;
-						break;
-					}
+					pCurrentNode.mConnection = iter->mConnection;
+					break;
 				}
 			}
-			//delete myPath;
 		}
+		
 	
 #ifdef VISUALIZE_PATH
 	mpPath = mReturnPath;
 #endif
 
-
-
 	return mReturnPath;
-	//delete mReturnPath;
 }
