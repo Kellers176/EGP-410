@@ -153,6 +153,14 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 					mVisitedNodes.push_back(endRecord.mNode);
 #endif
 			}
+			for (list<NodeRecord>::iterator iter = mClosed.begin(); iter != mClosed.end(); iter++)
+			{
+				if (iter->mNode == pCurrentNode.mNode)
+				{
+					mClosed.erase(iter);
+					break;
+				}
+			}
 			remove(pCurrentNode, mClosed);
 			mClosed.push_back(pCurrentNode);
 
