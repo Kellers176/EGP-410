@@ -148,6 +148,7 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 			//# We’ve finished looking at the connections for
 			//the current node, so add it to the closed list
 			//and remove it from the open list 
+			// add +
 			for (list<NodeRecord>::iterator iter = mOpen.begin(); iter != mOpen.end(); iter++)
 			{
 				if (iter->mNode == pCurrentNode.mNode)
