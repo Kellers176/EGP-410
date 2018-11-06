@@ -188,7 +188,7 @@ Path * Dijkstra::findPath(Node * pFrom, Node * pTo)
 				}
 			}
 		}
-		
+		mReturnPath->addNode(pFrom);
 	
 #ifdef VISUALIZE_PATH
 	mpPath = mReturnPath;

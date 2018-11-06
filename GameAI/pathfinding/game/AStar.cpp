@@ -219,6 +219,7 @@ Path * AStar::findPath(Node * pFrom, Node * pTo)
 				}
 			}
 		}
+		mReturnPath->addNode(pFrom);
 	}
 
 #ifdef VISUALIZE_PATH
